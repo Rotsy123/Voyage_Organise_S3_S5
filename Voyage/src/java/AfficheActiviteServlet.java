@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.Activite;
 import model.Bouquet;
 import model.BouquetActivite;
+import model.Connexion;
 
 /**
  *
@@ -29,10 +30,9 @@ public class AfficheActiviteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         try {
-            Class.forName("org.postgresql.Driver");
-       
-        Connection connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/voyage", "postgres", "root");
+         try {       
+        Connexion c=new Connexion();
+        Connection connexion=c.GetConnection();
         List<Bouquet> all = new Bouquet().GetAllBouquet(connexion);
         request.setAttribute("bouquet", all);
         request.getRequestDispatcher("AfficheActivite.jsp").forward(request, response);
@@ -40,6 +40,8 @@ public class AfficheActiviteServlet extends HttpServlet {
             Logger.getLogger(BouquetActiviteServlets.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(BouquetActiviteServlets.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(AfficheActiviteServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -55,7 +57,8 @@ public class AfficheActiviteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-        Connection connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/voyage", "postgres", "root");
+            Connexion c=new Connexion();
+            Connection connexion=c.GetConnection();
         String idbouquet = request.getParameter("bouquet");
         BouquetActivite bq = new BouquetActivite().GetByIdBouquet(connexion, idbouquet);
         List<Activite> allactivite = bq.getActivitels();
@@ -65,6 +68,8 @@ public class AfficheActiviteServlet extends HttpServlet {
         request.getRequestDispatcher("AfficheActivite.jsp").forward(request, response);
     
         } catch (SQLException ex) {
+            Logger.getLogger(AfficheActiviteServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(AfficheActiviteServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

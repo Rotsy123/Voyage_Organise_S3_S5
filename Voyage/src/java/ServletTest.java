@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Activite;
+import model.Connexion;
  
 @WebServlet(urlPatterns = {"/ServletTest"})
 public class ServletTest extends HttpServlet {
@@ -20,8 +21,8 @@ public class ServletTest extends HttpServlet {
         BufferedReader reader = request.getReader();
         StringBuilder stringBuilder=new StringBuilder();
         String line;
-        Class.forName("org.postgresql.Driver");
-        Connection connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/voyage", "postgres", "root");
+        Connexion c=new Connexion();
+        Connection connexion=c.GetConnection();
         while((line=reader.readLine())!=null){
             stringBuilder.append(line);
         }

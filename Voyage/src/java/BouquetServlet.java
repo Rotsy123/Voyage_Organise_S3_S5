@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Bouquet;
+import model.Connexion;
 
 /**
  *
@@ -35,12 +36,12 @@ public class BouquetServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, SQLException {
+            throws ServletException, IOException, ClassNotFoundException, SQLException, Exception {
         BufferedReader reader = request.getReader();
         StringBuilder stringBuilder=new StringBuilder();
         String line;
-        Class.forName("org.postgresql.Driver");
-        Connection connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/voyage", "postgres", "root");
+        Connexion c=new Connexion();
+        Connection connexion=c.GetConnection();
         while((line=reader.readLine())!=null){
             stringBuilder.append(line);
         }
@@ -73,6 +74,8 @@ public class BouquetServlet extends HttpServlet {
             Logger.getLogger(BouquetServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(BouquetServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(BouquetServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -92,6 +95,8 @@ public class BouquetServlet extends HttpServlet {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BouquetServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
+            Logger.getLogger(BouquetServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(BouquetServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
