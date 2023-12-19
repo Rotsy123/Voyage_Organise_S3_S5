@@ -33,3 +33,11 @@ create table voyage(
     FOREIGN KEY (idbouquet) REFERENCES bouquet (idbouquet),
     FOREIGN KEY (idcategorie) REFERENCES categorielieu (idcategorie)
 );
+
+insert into categorielieu (nom) values('National');
+insert into categorielieu (nom) values('International');
+insert into categorielieu (nom) values('Decouverte');
+
+insert into voyage (idbouquet,dureejours,idcategorie,prix) values (1,10,2,1500000);
+insert into voyage (idbouquet,dureejours,idcategorie,prix) values (2,,2,1500000);
+insert into voyage (idbouquet,dureejours,idcategorie,prix) values (1,10,2,1500000);
