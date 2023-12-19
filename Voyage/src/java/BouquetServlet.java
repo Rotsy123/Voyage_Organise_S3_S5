@@ -23,47 +23,48 @@ import model.Connexion;
  *
  * @author USER
  */
-@WebServlet(urlPatterns = {"/BouquetServlet"})
+@WebServlet(urlPatterns = { "/BouquetServlet" })
 public class BouquetServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException, Exception {
         BufferedReader reader = request.getReader();
-        StringBuilder stringBuilder=new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         String line;
-        Connexion c=new Connexion();
-        Connection connexion=c.GetConnection();
-        while((line=reader.readLine())!=null){
+        Connexion c = new Connexion();
+        Connection connexion = c.GetConnection();
+        while ((line = reader.readLine()) != null) {
             stringBuilder.append(line);
         }
-        String jsonData=stringBuilder.toString();
+        String jsonData = stringBuilder.toString();
         ObjectMapper objectMapper = new ObjectMapper();
         System.out.println(jsonData);
         Bouquet[] bouquet = objectMapper.readValue(jsonData, Bouquet[].class);
-        System.out.println(bouquet.length+" TAILLE");
-        for(int i=0; i<bouquet.length; i++){
+        System.out.println(bouquet.length + " TAILLE");
+        for (int i = 0; i < bouquet.length; i++) {
             System.out.println(bouquet[i].getNom());
             bouquet[i].InsererBouquet(connexion);
         }
-    }  
+    }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
+    // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -82,10 +83,10 @@ public class BouquetServlet extends HttpServlet {
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
