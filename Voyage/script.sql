@@ -41,3 +41,22 @@ insert into categorielieu (nom) values('Decouverte');
 insert into voyage (idbouquet,dureejours,idcategorie,prix) values (1,10,2,1500000);
 insert into voyage (idbouquet,dureejours,idcategorie,prix) values (2,,2,1500000);
 insert into voyage (idbouquet,dureejours,idcategorie,prix) values (1,10,2,1500000);
+
+create or replace view v_bouquetactivite as
+(SELECT
+    bouquetactivite.idbouquet AS bouquetactivite_idbouquet,
+    bouquetactivite.idactivite AS bouquetactivite_idactivite,
+    bouquetactivite.duree, -- Replace with actual column names
+    bouquet.nom, -- Replace with actual column names
+    bouquet.idbouquet AS bouquet_idbouquet,
+    activite.idactivite AS activite_idactivite,
+    activite.nom AS activite_nom -- Replace with actual column names
+FROM
+    bouquetactivite
+JOIN
+    bouquet ON bouquetactivite.idbouquet = bouquet.idbouquet
+JOIN
+    activite ON activite.idactivite = bouquetactivite.idactivite);
+select * from v_bouquetactivite where bouquet_idbouquet=2;
+
+

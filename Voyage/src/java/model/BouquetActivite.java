@@ -66,7 +66,7 @@ public class BouquetActivite {
         }
     }
     public BouquetActivite GetByIdBouquet(Connection connexion, String idbouquet) throws SQLException{
-        String requete = "Select*from bouquetactivite join bouquet on bouquetactivite.idbouquet= bouquet.idbouquet join activite on activite.idactivite= bouquetactivite.idactivite where bouquet.idbouquet="+idbouquet;
+        String requete = "Select * from v_bouquetactivite where bouquet_idbouquet="+idbouquet;
         PreparedStatement prepstat=null;
         prepstat=connexion.prepareStatement(requete);
         ResultSet results= prepstat.executeQuery();
