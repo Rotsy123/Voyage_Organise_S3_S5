@@ -63,6 +63,8 @@ button:hover {
         <div class="entry">
             <label for="nomActivite">Nom activité</label>
             <input type="text" id="nomActivite">
+            <label for="prixActivite">Prix activité</label>
+            <input type="text" id="prixActivite">
         </div>
 
         <div id="entriesContainer"></div>
@@ -79,7 +81,9 @@ button:hover {
     var uniqueId = Date.now(); // Utiliser une timestamp pour cr�er un ID unique
     newEntry.innerHTML = `
        <label for="${uniqueId}">Nom activité</label>
-        <input type="text" id="${uniqueId}">
+        <input type="text" id="${uniqueId}
+        <label for="${uniqueId}">Prix activité</label>
+        <input type="text" id="${uniqueId}">">
     `;
     document.getElementById('entriesContainer').appendChild(newEntry);
 }
@@ -89,9 +93,11 @@ button:hover {
         var data= [];
         var entries = document.querySelectorAll('.entry');
         entries.forEach(function (entry, index) {
-            var nomAct= entry.querySelector('input[type=text]').value;
+            var nomAct= document.getElementById("nomActivite").value;
+            var prixAct= document.getElementById("prixActivite").value;
             data.push({
-                nom : nomAct
+                nom : nomAct,
+                prix : prixAct
             });
         });
  

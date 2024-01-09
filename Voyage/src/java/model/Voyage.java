@@ -113,7 +113,7 @@ public class Voyage {
         }
     }  
     
-    public List<Voyage> getByIdActivite(Connection connexion,String idActivite )throws SQLException{
+    public List<Voyage> getByIdActivite(Connection connexion,String idActivite )throws Exception{
         String requete="select * from voyage";
         PreparedStatement prepstat=null;
         prepstat=connexion.prepareStatement(requete);
@@ -136,5 +136,23 @@ public class Voyage {
             la.add(new Voyage(results.getString(2), results.getDouble(3),results.getString(4),results.getDouble(5),baqa));
         }
         return la;
+    }
+    
+    
+    public static List<Voyage> GetByPrix(double prixMin , double prixMax , Connection connexion) throws Exception{
+        String query="select * from v_vraiPrixVoyage where sum<="+prixMax+" and sum>="+prixMin+";";
+        PreparedStatement prepstat=null;
+        prepstat=connexion.prepareStatement(query);
+        ResultSet results= prepstat.executeQuery();
+        BouquetActivite ba = null;
+        List<Voyage> la = new ArrayList<>();
+        Voyage b = null; 
+        while(results.next()){
+            BouquetActivite baqa= new BouquetActivite().GetByIdBouquet(connexion, results.getString(2));
+             Iterator<Activite> iterator = baqa.getActivitels().iterator();
+            la.add(new Voyage(results.getString(2), results.getDouble(3),results.getString(4),results.getDouble(5),baqa));
+        }
+        return la;
+        
     }
 }

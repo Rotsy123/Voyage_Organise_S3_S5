@@ -54,6 +54,7 @@ public class BouquetServlet extends HttpServlet {
             System.out.println(bouquet[i].getNom());
             bouquet[i].InsererBouquet(connexion);
         }
+        request.getRequestDispatcher("BouquetActiviteServlets").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the

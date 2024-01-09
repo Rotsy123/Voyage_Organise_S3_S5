@@ -49,13 +49,24 @@ public class BouquetActivite {
     List<Activite> activitels; 
     String idbouquet;
     String idactivite;
-    public BouquetActivite(String idbouquet, String idactivite) {
+    double nbactivite;
+
+    public double getNbactivite() {
+        return nbactivite;
+    }
+
+    public void setNbactivite(double nbactivite) {
+        this.nbactivite = nbactivite;
+    }
+    
+    public BouquetActivite(String idbouquet, String idactivite,double nbactivite) {
         this.idbouquet = idbouquet;
         this.idactivite = idactivite;
+        this.nbactivite=nbactivite;
     }
     public void Insert (Connection connexion) throws SQLException{
         System.out.println("Insert into bouquetactivite (idbouquet, idactivite) values ("+this.getIdbouquet()+","+ this.idactivite+")");
-        String requete = "Insert into bouquetactivite (idbouquet, idactivite) values ("+this.getIdbouquet()+","+ this.getIdactivite()+")";
+        String requete = "Insert into bouquetactivite (idbouquet, idactivite,nbactivite) values ("+this.getIdbouquet()+","+ this.getIdactivite()+","+ this.getNbactivite()+")";
         PreparedStatement preparedStatement = null;
         preparedStatement = connexion.prepareStatement(requete);
         int lignesAffectees = preparedStatement.executeUpdate();
@@ -65,7 +76,7 @@ public class BouquetActivite {
             System.out.println("Aucune donnée insérée.");
         }
     }
-    public BouquetActivite GetByIdBouquet(Connection connexion, String idbouquet) throws SQLException{
+    public BouquetActivite GetByIdBouquet(Connection connexion, String idbouquet) throws SQLException, Exception{
         String requete = "Select * from v_bouquetactivite where bouquet_idbouquet="+idbouquet;
         PreparedStatement prepstat=null;
         prepstat=connexion.prepareStatement(requete);
@@ -73,11 +84,21 @@ public class BouquetActivite {
         BouquetActivite ba = null;
         List<Activite> la = new ArrayList<>();
         Bouquet b = null; 
+        double nbAct=0;
         while(results.next()){
-            la.add(new Activite(results.getString(2), results.getString(7)));
+            if(results.getDouble(3)>1){
+                double temp=results.getDouble(3);
+                while(temp>1){
+                    la.add(new Activite(results.getString(2), results.getString(7),results.getDouble(8)));
+                    temp--;
+                }
+            }
+            la.add(new Activite(results.getString(2), results.getString(7),results.getDouble(8)));
             b = new Bouquet(results.getString(4), results.getString(5));
+            nbAct=nbAct+results.getDouble(3);
         }
         ba = new BouquetActivite (b, la);
+        ba.setNbactivite(nbAct);
         return ba;
     }
 }

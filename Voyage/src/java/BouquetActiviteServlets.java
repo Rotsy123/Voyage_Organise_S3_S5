@@ -69,9 +69,10 @@ public class BouquetActiviteServlets extends HttpServlet {
             System.out.println(bouquet.length+" TAILLE");
             
             for (int i = 0; i < bouquet.length; i++) {
-                BouquetActivite bouquetActivite = new BouquetActivite(bouquet[i].getIdbouquet(), bouquet[i].getIdactivite());
+                BouquetActivite bouquetActivite = new BouquetActivite(bouquet[i].getIdbouquet(), bouquet[i].getIdactivite(),bouquet[i].getNbactivite());
                 bouquetActivite.Insert(connexion);
             }
+            request.getRequestDispatcher("filtrePrix.jsp").forward(request, response);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BouquetActiviteServlets.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

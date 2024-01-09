@@ -56,7 +56,7 @@
             <label for="duree">Duree</label>
             <input type="number" step="0.01" id="duree" name="duree" required>
             <label for="prix">Prix</label>
-            <input type="number" step="0.01" id="prix" name="prix" required>
+            <input type="number" step="0.01" id="prix" name="prix" hidden>
         </div>
 
         <div id="entriesContainer"></div>

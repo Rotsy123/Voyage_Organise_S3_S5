@@ -80,6 +80,8 @@ button:hover {
                     <option id="activite" name="activite" value="<%=activite.get(i).getId()%>"><%=activite.get(i).getNom()%></option>
                 <%}%>
             </select>
+            <label for="nbActivite">Nombre de l'activité</label>
+            <input type="number" name="nbActivite" id="nbActivite">
         </div>
 
         <div id="entriesContainer"></div>
@@ -96,11 +98,11 @@ button:hover {
     var uniqueId = Date.now(); 
  
     newEntry.innerHTML = `
-        <label for="bouquet">Nom bouquet©</label>
-            <select name="bouquet" id="bouquet">
+        <label for="bouquet_${uniqueId}">Nom bouquet©</label>
+            <select name="bouquet_${uniqueId}" id="bouquet_${uniqueId}">
 
     <%for(int i=0; i<bouquet.size(); i++){%>
-                    <option id="bouquet" name="bouquet" value="<%=bouquet.get(i).getIdBouquet()%>"><%=bouquet.get(i).getNom()%></option>
+                    <option id="bouquet_${uniqueId}" name="bouquet_${uniqueId}" value="<%=bouquet.get(i).getIdBouquet()%>"><%=bouquet.get(i).getNom()%></option>
                 <%}%>
             </select>
         <label for="activite_${uniqueId}">Nom Activite©</label>
@@ -109,6 +111,8 @@ button:hover {
                 <option name="activite_${uniqueId}" id="activite_${uniqueId}" value="<%=activite.get(i).getId()%>"><%=activite.get(i).getNom()%></option>
             <%}%>
         </select>
+        <label for="${uniqueId}">Nombre de l'activité</label>
+        <input type="number" name="nbActivite" id="${uniqueId}">
     `; 
     document.getElementById('entriesContainer').appendChild(newEntry);
 }
@@ -120,11 +124,13 @@ button:hover {
         entries.forEach(function (entry, index) {
         var nomBouquet = entry.querySelector('select[name^="bouquet"]').value;
         var nomActivite = entry.querySelector('select[name^="activite"]').value;
+        var nbActivite= document.getElementById("nbActivite").value
 
 
         data.push({
             idactivite : nomActivite,
-            idbouquet : nomBouquet
+            idbouquet : nomBouquet,
+            nbactivite : nbActivite
         });
 
     });
