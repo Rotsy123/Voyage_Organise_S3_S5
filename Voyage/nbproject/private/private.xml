@@ -3,10 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/USER/Documents/NetBeansProjects/Voyage_Organise_S3_S5/Voyage/src/java/EntreeStockServlet.java</file>
             <file>file:/C:/Users/USER/Documents/NetBeansProjects/Voyage_Organise_S3_S5/Voyage/src/java/model/BouquetActivite.java</file>
             <file>file:/C:/Users/USER/Documents/NetBeansProjects/Voyage_Organise_S3_S5/Voyage/src/java/model/Voyage.java</file>
+            <file>file:/C:/Users/USER/Documents/NetBeansProjects/Voyage_Organise_S3_S5/Voyage/web/entree.jsp</file>
             <file>file:/C:/Users/USER/Documents/NetBeansProjects/Voyage_Organise_S3_S5/Voyage/web/AfficheVoyage.jsp</file>
+            <file>file:/C:/Users/USER/Documents/NetBeansProjects/Voyage_Organise_S3_S5/Voyage/src/java/model/ResteStock.java</file>
+            <file>file:/C:/Users/USER/Documents/NetBeansProjects/Voyage_Organise_S3_S5/Voyage/src/java/model/EntreeStock.java</file>
+            <file>file:/C:/Users/USER/Documents/NetBeansProjects/Voyage_Organise_S3_S5/Voyage/src/java/SortieStockServlet.java</file>
             <file>file:/C:/Users/USER/Documents/NetBeansProjects/Voyage_Organise_S3_S5/Voyage/src/java/AfficheVoyage.java</file>
+            <file>file:/C:/Users/USER/Documents/NetBeansProjects/Voyage_Organise_S3_S5/Voyage/src/java/model/SortieStock.java</file>
             <file>file:/C:/Users/USER/Documents/NetBeansProjects/Voyage_Organise_S3_S5/Voyage/src/java/model/Activite.java</file>
         </group>
     </open-files>
