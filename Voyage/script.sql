@@ -79,5 +79,51 @@ select voyage.idvoyage,voyage.idbouquet,voyage.dureejours,voyage.idcategorie,v_p
 
 select * from voyage join bouquetactivite on bouquetactivite.idbouquet=voyage.idbouquet join activite on bouquetactivite.idactivite=activite.idactivite;
 
+create view v_voyagebouquetact as
+select idvoyage,voyage.idbouquet,dureejours,idcategorie,prix,idactivite,nbactivite from voyage join bouquetactivite on voyage.idbouquet=bouquetactivite.idbouquet;
+
+
+create table EntreeStock(
+    idEntreeStock serial primary key,
+    nb INT,
+    idactivite INT,
+    DateEntreeStock DATE,
+    FOREIGN KEY (idactivite) REFERENCES activite (idactivite)
+);
+
+ALTER table EntreeStock add column prix double precision;
+
+create table SortieStock(
+    idSortieStock serial primary key,
+    nb INT,
+    idactivite INT,
+    DateSortieStock DATE,
+    FOREIGN KEY (idactivite) REFERENCES activite (idactivite)
+);
+
+create table Fabrication(
+    idvoyage INT,
+    DateFabrication DATE,
+    nb INT,
+    FOREIGN KEY (idvoyage) REFERENCES voyage(idvoyage)
+);
+
+create or replace view v_resteenstock as
+select sum(EntreeStock.nb)-COALESCE ((SELECT SUM(nb) FROM SortieStock WHERE idactivite=EntreeStock.idactivite),0) as stock_actuel,
+EntreeStock.idactivite from EntreeStock 
+group by EntreeStock.idactivite;
+
+
+-- Données de test pour la table EntreeStock
+INSERT INTO EntreeStock (nb, idactivite, DateEntreeStock) VALUES
+    (100, 10, '2024-01-11'),
+    (50, 11, '2024-01-12'),
+    (75, 12, '2024-01-13');
+
+-- Données de test pour la table SortieStock
+INSERT INTO SortieStock (nb, idactivite, DateSortieStock) VALUES
+    (30, 10, '2024-01-14'),
+    (20, 11, '2024-01-15'),
+    (10, 12, '2024-01-16');
 
 

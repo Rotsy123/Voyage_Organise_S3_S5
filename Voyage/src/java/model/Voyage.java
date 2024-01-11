@@ -19,6 +19,16 @@ import java.util.List;
  * @author USER
  */
 public class Voyage {
+    @JsonProperty("idvoyage")
+    String idvoyage;
+
+    public String getIdvoyage() {
+        return idvoyage;
+    }
+
+    public void setIdvoyage(String idvoyage) {
+        this.idvoyage = idvoyage;
+    }
     @JsonProperty("idbouquet")
     String idbouquet;
     @JsonProperty("duree")
@@ -73,7 +83,8 @@ public class Voyage {
     public Voyage() {
     }
 
-    public Voyage(String idbouquet, double duree, String idcatelieu, double prix) {
+    public Voyage(String idvoyage,String idbouquet, double duree, String idcatelieu, double prix) {
+        this.setIdvoyage(idvoyage);
         this.idbouquet = idbouquet;
         this.duree = duree;
         this.idcatelieu = idcatelieu;
@@ -112,6 +123,21 @@ public class Voyage {
             System.out.println("Aucune donnée insérée.");
         }
     }  
+    
+    public static Voyage GetByIdvoyage(Connection connexion , String idvoyage) throws Exception{
+        String requete="select * from voyage where idvoyage="+idvoyage;
+        PreparedStatement prepstat=null;
+        prepstat=connexion.prepareStatement(requete);
+        ResultSet results= prepstat.executeQuery();
+        Voyage b = null;
+
+        if(results.next()){
+            BouquetActivite baqa= new BouquetActivite().GetByIdBouquet(connexion, results.getString(2));
+             Iterator<Activite> iterator = baqa.getActivitels().iterator();
+            b = new Voyage(results.getString(2), results.getDouble(3),results.getString(4),results.getDouble(5),baqa);
+        }
+        return b;
+    }
     
     public List<Voyage> getByIdActivite(Connection connexion,String idActivite )throws Exception{
         String requete="select * from voyage";
@@ -153,6 +179,18 @@ public class Voyage {
             la.add(new Voyage(results.getString(2), results.getDouble(3),results.getString(4),results.getDouble(5),baqa));
         }
         return la;
-        
     }
+    
+    public List<BouquetActivite> GetAllActivite(Connection connexion) throws Exception{
+        String query="select * from v_voyagebouquetact where idvoyage="+this.getIdvoyage();
+        PreparedStatement prepstat=null;
+        prepstat=connexion.prepareStatement(query);
+        ResultSet results= prepstat.executeQuery();
+        List<BouquetActivite> ba = new ArrayList<>();
+        while(results.next()){
+            BouquetActivite baqa= new BouquetActivite().GetByIdBouquet(connexion, results.getString(2));
+            ba.add(baqa);
+        }
+        return ba;
+    } 
 }
