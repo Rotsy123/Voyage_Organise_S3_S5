@@ -4,7 +4,6 @@
  */
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,16 +12,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Activite;
 import model.Connexion;
-import model.Fabrication;
-import model.Voyage;
+import model.ResteStock;
 
 /**
  *
  * @author USER
  */
-@WebServlet(urlPatterns = {"/SortieStockServlet"})
-public class SortieStockServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/ResteStockServlet"})
+public class ResteStockServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,14 +37,21 @@ public class SortieStockServlet extends HttpServlet {
         Connexion conn=new Connexion();
         
         try {
-            List<Voyage> allVoyage=new Voyage().GetAllVoyage(conn.GetConnection());
-            request.setAttribute("voyages",allVoyage);
+            List<Activite> allActivite=new Activite().GetAllActivite(conn.GetConnection());
+            request.setAttribute("activites",allActivite);
+            String idactivite="0";
+            if(request.getParameter("activite")!=null){
+            idactivite=request.getParameter("activite");
+            }
+            List<ResteStock> restes=new ResteStock().GetAllByIdActivite(conn.GetConnection(),idactivite);
+            request.setAttribute("restestock",restes);
             
-            request.getRequestDispatcher("sortie.jsp").forward(request, response);
+            request.getRequestDispatcher("resteStock.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(EntreeStockServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+        }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -73,19 +79,7 @@ public class SortieStockServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Date dt=Date.valueOf(request.getParameter("date"));
-        int nbBillet=Integer.parseInt(request.getParameter("nombreBillets"));
-        
-        String idvoyage=request.getParameter("voyage");
-        Fabrication toInsert;
-        try {
-            toInsert = new Fabrication(idvoyage,nbBillet,dt);
-            Connexion conn=new Connexion();
-            toInsert.Insert(conn.GetConnection());
-            
-        } catch (Exception ex) {
-            Logger.getLogger(SortieStockServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

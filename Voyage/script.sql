@@ -102,6 +102,7 @@ create table SortieStock(
 );
 
 create table Fabrication(
+    idFabrication serial primary key,
     idvoyage INT,
     DateFabrication DATE,
     nb INT,

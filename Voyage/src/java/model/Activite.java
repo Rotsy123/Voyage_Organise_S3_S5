@@ -73,4 +73,19 @@ public class Activite {
 //        connexion.close();
         return ls;
     }
+    
+    public static List<Activite> GetActiviteById(Connection connexion,String id) throws SQLException, Exception{
+        String requete = "Select * from Activite where idactivite="+id;
+        PreparedStatement prepstat=null;
+        prepstat=connexion.prepareStatement(requete);
+        ResultSet results=prepstat.executeQuery();
+        List<Activite> ls=new ArrayList<>();
+        while(results.next()){
+            Activite b = new Activite(results.getString(1), results.getString(2),results.getDouble(3));;
+            ls.add(b);
+        }
+        prepstat.close();
+//        connexion.close();
+        return ls;
+    }
 }

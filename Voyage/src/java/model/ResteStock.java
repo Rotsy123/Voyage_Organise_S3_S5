@@ -7,6 +7,8 @@ package model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -51,7 +53,7 @@ public class ResteStock {
         ResultSet results= prepstat.executeQuery();
         ResteStock b = null; 
         while(results.next()){
-            b=new ResteStock(results.getString("2"),results.getDouble("1"));
+            b=new ResteStock(results.getString(2),results.getDouble(1));
         }
         return b;
     }
@@ -59,9 +61,31 @@ public class ResteStock {
     public static void checkDisponibilite(Connection c , String idactivite,double nb) throws Exception{
         ResteStock rs=ResteStock.GetByIdActivite(c, idactivite);
         double reste=rs.getStockactuel()-nb;
+        System.out.println("Calcul du reste "+ reste);
         if(reste<0){
             throw new Exception("TSY AMPY NY AO ANATY STOCK");
         }
+    }
+    
+    public static List<ResteStock> GetAllByIdActivite(Connection c , String idActivite) throws Exception{
+        String requete;
+        if(idActivite.equals("0")){
+            requete = "select * from v_resteenstock";
+        }
+        else{
+            requete = "select * from v_resteenstock where idactivite="+idActivite;
+        }
+        PreparedStatement prepstat=null;
+        prepstat=c.prepareStatement(requete);
+        ResultSet results=prepstat.executeQuery();
+        List<ResteStock> ls=new ArrayList<>();
+        while(results.next()){
+            ResteStock b = new ResteStock(results.getString(2),results.getDouble(1));
+            ls.add(b);
+        }
+        prepstat.close();
+//        connexion.close();
+        return ls;
     }
 }
     
