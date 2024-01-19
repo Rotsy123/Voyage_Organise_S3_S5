@@ -123,7 +123,20 @@ public class Voyage {
             System.out.println("Aucune donnée insérée.");
         }
     }  
-    
+        public static List<Voyage> GetAll(Connection connexion) throws Exception{
+        String requete="select * from voyage";
+        PreparedStatement prepstat=null;
+        prepstat=connexion.prepareStatement(requete);
+        ResultSet results= prepstat.executeQuery();
+        List<Voyage> voyage = new ArrayList<>();
+
+        if(results.next()){
+            BouquetActivite baqa= new BouquetActivite().GetByIdBouquet(connexion, results.getString(2));
+             Iterator<Activite> iterator = baqa.getActivitels().iterator();
+            voyage.add(new Voyage(results.getString(2), results.getDouble(3),results.getString(4),results.getDouble(5),baqa));
+        }
+        return voyage;
+    }
     public static Voyage GetByIdvoyage(Connection connexion , String idvoyage) throws Exception{
         String requete="select * from voyage where idvoyage="+idvoyage;
         PreparedStatement prepstat=null;

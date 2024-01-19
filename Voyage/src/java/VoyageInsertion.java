@@ -81,6 +81,7 @@ public class VoyageInsertion extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("ato");
         try {
             BufferedReader reader = request.getReader();
             StringBuilder stringBuilder=new StringBuilder();
@@ -90,7 +91,11 @@ public class VoyageInsertion extends HttpServlet {
             while((line=reader.readLine())!=null){
                 stringBuilder.append(line);
             }
+            System.out.println("ato");
+
             String jsonData=stringBuilder.toString();
+            System.out.println(jsonData);
+
             ObjectMapper objectMapper = new ObjectMapper();
             System.out.println(jsonData+" DATA");
             Voyage[] voyage = objectMapper.readValue(jsonData, Voyage[].class);

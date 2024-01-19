@@ -66,7 +66,7 @@ public class Activite {
         ResultSet results=prepstat.executeQuery();
         List<Activite> ls=new ArrayList<>();
         while(results.next()){
-            Activite b = new Activite(results.getString(1), results.getString(2),results.getDouble(3));;
+            Activite b = new Activite(results.getString(1), results.getString(2),results.getDouble(4));;
             ls.add(b);
         }
         prepstat.close();

@@ -36,9 +36,8 @@ public class SortieStockServlet extends HttpServlet {
         Connexion conn=new Connexion();
         
         try {
-            List<Voyage> allVoyage=new Voyage().GetAllVoyage(conn.GetConnection());
-            request.setAttribute("activites",allActivite);
-            
+            List<Voyage> allVoyage=new Voyage().GetAll(conn.GetConnection());
+            request.setAttribute("activites",allVoyage);
             request.getRequestDispatcher("entree.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(EntreeStockServlet.class.getName()).log(Level.SEVERE, null, ex);

@@ -52,8 +52,7 @@ public class Bouquet {
         prepstat=connexion.prepareStatement(requete);
         ResultSet results= prepstat.executeQuery();
         List<Bouquet> ls=new ArrayList<>();
-        while(results.next()){
-            System.out.println("ID"+results.getString(1));
+        while(results.next()){ 
                     
             Bouquet b = new Bouquet(results.getString(1), results.getString(2));
             ls.add(b);
