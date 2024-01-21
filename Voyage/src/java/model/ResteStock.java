@@ -47,7 +47,7 @@ public class ResteStock {
     
     public static ResteStock GetByIdActivite(Connection c,String idactivite) throws Exception{
         String query="select * from v_resteenstock where idactivite="+idactivite;
-        
+        System.out.println(query);
         PreparedStatement prepstat=null;
         prepstat=c.prepareStatement(query);
         ResultSet results= prepstat.executeQuery();
@@ -58,13 +58,17 @@ public class ResteStock {
         return b;
     }
     
-    public static void checkDisponibilite(Connection c , String idactivite,double nb) throws Exception{
+    public static double checkReste(Connection c , String idactivite) throws Exception{
         ResteStock rs=ResteStock.GetByIdActivite(c, idactivite);
-        double reste=rs.getStockactuel()-nb;
-        System.out.println("Calcul du reste "+ reste);
+        double reste=rs.getStockactuel();
+        return reste;
+    }
+    public static double checkDisponibiliteDouble(double initiale, double nb) throws Exception{
+        double reste=initiale-nb; 
         if(reste<0){
             throw new Exception("TSY AMPY NY AO ANATY STOCK");
         }
+        return reste;
     }
     
     public static List<ResteStock> GetAllByIdActivite(Connection c , String idActivite) throws Exception{

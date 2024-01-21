@@ -11,8 +11,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Insertion de bouquet</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+
+        #activite-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #ccc;
+                        font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
@@ -22,21 +27,14 @@
             height: 100vh;
         }
 
-        #activite-form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px #ccc;
-        }
-
         .entry {
             margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-                        <%=bouquet.get(0).getIdBouquet()%>
-
+      <%@ include file="header.jsp" %>
+<div class="contenus">
 <div id="bouquet-form">
     <form id="bouquetForm">
         <div class="entry">
@@ -56,7 +54,12 @@
             <label for="duree">Duree</label>
             <input type="number" step="0.01" id="duree" name="duree" required>
             <label for="prix">Prix</label>
-            <input type="number" step="0.01" id="prix" name="prix" hidden>
+            <input type="number" step="0.01" id="prix" name="prix" required>
+            <label for="taille">Taille</label>
+            <select name="taille" id="taille">
+                <option value="1">court</option>
+                <option value="2">long</option>
+            </select>
         </div>
 
         <div id="entriesContainer"></div>
@@ -88,12 +91,13 @@
         </select>
         <label for="duree_${uniqueId}">Duree</label>
         <input type="number" step="0.01" id="duree_${uniqueId}" name="duree_${uniqueId}" required>
-        <label for="prix_${uniqueId}">Prix</label>
+<label for="prix_${uniqueId}">Prix</label>
         <input type="number" step="0.01" id="prix_${uniqueId}" name="prix_${uniqueId}" required>
     `; 
     document.getElementById('entriesContainer').appendChild(newEntry);
 }
- 
+        
+
     function validerFormulaire() {
         var data= [];
         // Récupérer toutes les entrées du formulaire
@@ -103,12 +107,14 @@
         var nomActivite = entry.querySelector('select[name^="activite"]').value;
         var duree=entry.querySelector('input[name^="duree"]').value;
         var prix=entry.querySelector('input[name^="prix"]').value;
+        var taille=entry.querySelector('select[name^="taille"]').value;
 
         data.push({
             idcatelieu : nomActivite,
             idbouquet : nomBouquet,
             duree : duree,
-            prix : prix
+            prix : prix,
+            taille : taille
         });
 
     });
@@ -131,6 +137,6 @@
             return false;
             }
 </script>
-
+</div>
 </body>
 </html>

@@ -98,10 +98,9 @@ public class AfficheVoyage extends HttpServlet {
         System.out.println(idactivite);
         List<Activite> all = new Activite().GetAllActivite(c);
         request.setAttribute("activite", all);
-        
-            List<Voyage> allVoyage=new Voyage().getByIdActivite(c, idactivite);
-            request.setAttribute("voyage",allVoyage);
-            request.getRequestDispatcher("AfficheVoyage.jsp").forward(request,response);
+        List<Voyage> allVoyage=new Voyage().getByIdActivite(c, idactivite);
+        request.setAttribute("voyage",allVoyage);
+        request.getRequestDispatcher("AfficheVoyage.jsp").forward(request,response);
             
         } catch (SQLException ex) {
             Logger.getLogger(AfficheVoyage.class.getName()).log(Level.SEVERE, null, ex);

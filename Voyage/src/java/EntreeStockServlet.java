@@ -83,7 +83,7 @@ public class EntreeStockServlet extends HttpServlet {
             toInsert = new EntreeStock(nbBillet,idactivite,dt,prix);
             Connexion conn=new Connexion();
             toInsert.Insert(conn.GetConnection());
-            List<Activite> allActivite=new Activite().GetAllActivite(conn.GetConnection());
+             List<Activite> allActivite=new Activite().GetAllActivite(conn.GetConnection());
             request.setAttribute("activites",allActivite);
             
             request.getRequestDispatcher("entree.jsp").forward(request, response);

@@ -109,6 +109,33 @@ create table Fabrication(
     FOREIGN KEY (idvoyage) REFERENCES voyage(idvoyage)
 );
 
+create table CategorieMpiasa(
+    id serial primary key,
+    Categorie VARCHAR(20)
+);
+
+create table Mpiasa(
+    id serial primary key,
+    Nom VARCHAR(50),
+    Dtn DATE,
+    idCategorie int,
+    SalaireHoraire double precision,
+    FOREIGN KEY (idCategorie) REFERENCES CategorieMpiasa(id)
+);
+
+create table FabricationVoyage(
+    idVoyage int,
+    idMpiasa int,
+    Horaire double precision,
+    FOREIGN KEY (idVoyage) REFERENCES Voyage(idvoyage),
+    FOREIGN KEY (idMpiasa) REFERENCES Mpiasa(id)
+);
+
+create or replace view v_prixactivitestock as
+select sum(entreestock.prix),  from entreestock
+
+
+
 create or replace view v_resteenstock as
 select sum(EntreeStock.nb)-COALESCE ((SELECT SUM(nb) FROM SortieStock WHERE idactivite=EntreeStock.idactivite),0) as stock_actuel,
 EntreeStock.idactivite from EntreeStock 
@@ -128,3 +155,12 @@ INSERT INTO SortieStock (nb, idactivite, DateSortieStock) VALUES
     (10, 12, '2024-01-16');
 
 
+create or replace view prixactiviteparentree as
+select voyage.idvoyage,  sum (bouquetactivite.nbactivite*entreestock.prix) from voyage join bouquetactivite on voyage.idbouquet = bouquetactivite.idbouquet join entreestock on entreestock.idactivite= bouquetactivite.idactivite group by voyage.idvoyage;
+
+create or replace view KaramaMpiasa as 
+select sum(mpiasa.salairehoraire*horaire*voyage.taille), fabricationvoyage.idvoyage from
+mpiasa 
+join fabricationvoyage on fabricationvoyage.idmpiasa = mpiasa.id
+join voyage on voyage.idvoyage = fabricationvoyage.idvoyage
+group by fabricationvoyage.idvoyage;

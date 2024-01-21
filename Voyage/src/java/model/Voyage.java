@@ -21,6 +21,16 @@ import java.util.List;
 public class Voyage {
     @JsonProperty("idvoyage")
     String idvoyage;
+    @JsonProperty("taille")
+    int taille;
+
+    public int getTaille() {
+        return taille;
+    }
+
+    public void setTaille(int taille) {
+        this.taille = taille;
+    }
 
     public String getIdvoyage() {
         return idvoyage;
@@ -99,6 +109,15 @@ public class Voyage {
         this.ba=bouquetAct;
         
     }
+    public Voyage(String idbouquet, double duree, String idcatelieu, double prix,BouquetActivite bouquetAct,int taille) {
+        this.idbouquet = idbouquet;
+        this.duree = duree;
+        this.idcatelieu = idcatelieu;
+        this.prix = prix;
+        this.ba=bouquetAct;
+        this.taille=taille;
+        
+    }
     
     
     
@@ -131,7 +150,7 @@ public class Voyage {
     
     public void Insert (Connection connexion) throws SQLException{
         System.out.print("Insert into voyage (idBouquet,dureejours,idcategorie,prix) values ("+ this.getIdBouquet()+","+ this.getDureejour()+","+this.getIdCateLieu()+","+this.getPrix()+")");
-        String requete ="Insert into voyage (idbouquet,dureejours,idcategorie,prix) values ("+ this.getIdBouquet()+","+ this.getDureejour()+","+this.getIdCateLieu()+","+this.getPrix()+")";
+        String requete ="Insert into voyage (idbouquet,dureejours,idcategorie,prix,taille) values ("+ this.getIdBouquet()+","+ this.getDureejour()+","+this.getIdCateLieu()+","+this.getPrix()+","+this.getTaille()+")";
         PreparedStatement preparedStatement = null;
         preparedStatement = connexion.prepareStatement(requete);
         int lignesAffectees = preparedStatement.executeUpdate();
@@ -141,20 +160,7 @@ public class Voyage {
             System.out.println("Aucune donnée insérée.");
         }
     }  
-        public static List<Voyage> GetAll(Connection connexion) throws Exception{
-        String requete="select * from voyage";
-        PreparedStatement prepstat=null;
-        prepstat=connexion.prepareStatement(requete);
-        ResultSet results= prepstat.executeQuery();
-        List<Voyage> voyage = new ArrayList<>();
-
-        if(results.next()){
-            BouquetActivite baqa= new BouquetActivite().GetByIdBouquet(connexion, results.getString(2));
-             Iterator<Activite> iterator = baqa.getActivitels().iterator();
-            voyage.add(new Voyage(results.getString(2), results.getDouble(3),results.getString(4),results.getDouble(5),baqa));
-        }
-        return voyage;
-    }
+    
     public static Voyage GetByIdvoyage(Connection connexion , String idvoyage) throws Exception{
         String requete="select * from voyage where idvoyage="+idvoyage;
         PreparedStatement prepstat=null;
@@ -224,5 +230,57 @@ public class Voyage {
             ba.add(baqa);
         }
         return ba;
-    } 
+    }
+    
+    public double GetKaramaMpiasa(int idvoyage) throws Exception{
+        Connexion connexion = new Connexion();
+        String requete = "select*from karamampiasa where idvoyage = "+idvoyage;
+        PreparedStatement prepstat=null;
+        prepstat=connexion.GetConnection().prepareStatement(requete);
+        ResultSet results= prepstat.executeQuery();
+        double karama = 0;
+        if(results.next()){
+            karama = results.getDouble(1);
+        }
+        return karama;
+    }
+    
+    public double GetPrixActivite(int idvoyage) throws Exception{
+        Connexion c=new Connexion();
+        double prix = 0;
+            String query="select * from prixactiviteparentree where idvoyage="+idvoyage;
+            PreparedStatement prepstat=null;
+            prepstat=c.GetConnection().prepareStatement(query);
+            ResultSet results= prepstat.executeQuery();
+            if(results.next()){
+                prix=results.getDouble(2);
+            }
+
+        return prix;
+    }
+    public double PrixDeRevient(int idvoyage) throws Exception{
+        double karamaMpiasa=this.GetKaramaMpiasa(idvoyage);
+        double prixActivite=this.GetPrixActivite(idvoyage);
+        return karamaMpiasa+prixActivite;
+    }
+    
+    public double GetBenefice(String idvoyage) throws Exception{
+        Connexion c=new Connexion();
+        Voyage v=Voyage.GetByIdvoyage(c.GetConnection(), idvoyage);
+        double prixRevient=this.PrixDeRevient(Integer.parseInt(idvoyage));
+        double benefice=v.getPrix()-prixRevient;
+        return benefice;
+    }
+    
+    public List<Voyage> GetBeneficeInInterval(Connection connexion, double prixMin , double prixMax) throws Exception{
+        List<Voyage> lsVoyage=Voyage.GetAllVoyage(connexion);
+        List<Voyage> res=new ArrayList<>();
+        for(int i=0 ; i<lsVoyage.size() ; i++){
+            double benefice=this.GetBenefice(lsVoyage.get(i).getIdvoyage());
+            if(benefice>=prixMin && benefice<=prixMax){
+                res.add(lsVoyage.get(i));
+            }
+        }
+        return res;
+    }
 }

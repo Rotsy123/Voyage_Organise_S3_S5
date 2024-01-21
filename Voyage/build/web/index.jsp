@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Insertion d'activités</title>
     <style>
-        body {
+ 
+
+#activite-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #ccc;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
@@ -14,13 +20,6 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-}
-
-#activite-form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px #ccc;
 }
 
 .entry {
@@ -56,8 +55,10 @@ button:hover {
 
     </style>
 </head>
-<body>
+  <%@ include file="header.jsp" %>
 
+<body>
+    <div class="contenus">
 <div id="activite-form">
     <form id="activiteForm">
         <div class="entry">
@@ -119,6 +120,6 @@ button:hover {
             return false;
             }
 </script>
-
+    </div>
 </body>
 </html>

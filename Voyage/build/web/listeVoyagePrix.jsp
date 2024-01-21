@@ -14,16 +14,6 @@
         <title>Liste voyages</title>
     </head>
     <style>
-        body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-}
 
 form {
     background-color: #fff;
@@ -32,6 +22,14 @@ form {
     box-shadow: 0 0 10px #ccc;
     width: 400px; /* Adjust the width as needed */
     text-align: center;
+        font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
 label {
@@ -91,7 +89,10 @@ tbody tr:nth-child(even) {
 }
 
     </style>
+    
     <body>
+      <%@ include file="header.jsp" %>
+      <div class="contenus">
         <table>
         <thead>
             <tr>
@@ -112,5 +113,6 @@ tbody tr:nth-child(even) {
             <% } %>
         </tbody>
     </table>
+      </div>
     </body>
 </html>

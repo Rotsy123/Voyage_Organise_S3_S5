@@ -8,62 +8,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulaire de Réservation</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+    <title>Sortie de stock</title>
+   <style>
+    form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column; /* Modifier la direction de la disposition en colonne */
+    }
 
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+    label {
+        display: block;
+        margin-bottom: 8px;
+    }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-        }
+    select,
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 16px;
+        box-sizing: border-box;
+    }
 
-        select,
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 16px;
-            box-sizing: border-box;
-        }
+    input[type="submit"] {
+        background-color: #4caf50;
+        color: #fff;
+        cursor: pointer;
+    }
 
-        input[type="submit"] {
-            background-color: #4caf50;
-            color: #fff;
-            cursor: pointer;
-        }
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
 
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-    </style>
 </head>
 <body>
-
+  <%@ include file="header.jsp" %>
+  <div class="contenus">
 <form action="SortieStockServlet" method="post">
     <label for="Voyage">Sélectionnez un voyage :</label>
     <select id="Voyage" name="voyage">
-        <%
-            for(int i=0 ; i<voyages.size() ; i++){
-        %>
-                <option value="<%=voyages.get(i).getIdvoyage()%>"><%=voyages.get(i).getBa().getBouquet().getNom()%></option>
-        <%
-            }
-        %>
+        <% if (voyages != null && !voyages.isEmpty()) { %>
+            <%
+                for (int i = 0; i < voyages.size(); i++) {
+                    Voyage currentVoyage = voyages.get(i);
+                    if (currentVoyage != null && currentVoyage.getBa() != null && currentVoyage.getBa().getBouquet() != null) {
+            %>
+                        <option value="<%=currentVoyage.getIdvoyage()%>"><%=currentVoyage.getBa().getBouquet().getNom()%></option>
+            <%
+                    }
+                }
+            %>
+        <% } %>
         <!-- Ajoutez d'autres options au besoin -->
     </select>
 
@@ -82,6 +87,6 @@
 
     <input type="submit" value="Soumettre">
 </form>
-
+  </div>
 </body>
 </html>

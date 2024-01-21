@@ -7,6 +7,7 @@ package model;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -73,6 +74,7 @@ public class Fabrication {
     
     public void Insert(Connection c) throws Exception{
         int nbAfakaFabriquena=this.checkDisponibilite(c);
+        System.out.println(nbAfakaFabriquena+"iooooooooooooooooo");
         String requete ="Insert into fabrication (idvoyage,datefabrication,nb) values ("+ this.getIdvoyage()+",'"+this.getDateFabrication()+"',"+nbAfakaFabriquena+")";
         PreparedStatement preparedStatement = null;
         preparedStatement = c.prepareStatement(requete);
@@ -99,22 +101,77 @@ public class Fabrication {
     }
     
     
-    
-    public int checkDisponibilite(Connection c) throws Exception{
-        Voyage v=Voyage.GetByIdvoyage(c,this.getIdvoyage());
-        BouquetActivite ba=new BouquetActivite().GetByIdBouquet(c,v.getIdBouquet());
-        int nbPossibleInsert=0;
-        for(int j=0; j<this.getNbvoyage(); j++){
-            for(int i=0 ; i<ba.getActivitels().size() ; i++){
-                int nbre=Collections.frequency(ba.getActivitels(),ba.getActivitels().get(i));
-                System.out.println(ba.getActivitels().get(i).getId());
-                ResteStock.checkDisponibilite(c, ba.getActivitels().get(i).getId(), nbre);
-                if(nbre>1){
-                    i=i+(nbre-1);
+    public int checkDisponibilite(Connection c) {
+    Voyage v = null;
+    BouquetActivite ba = null;
+    int nbPossibleInsert = 0;
+    List<Double> reste = new ArrayList<>();
+
+    try {
+        v = Voyage.GetByIdvoyage(c, this.getIdvoyage());
+        ba = new BouquetActivite().GetByIdBouquet(c, v.getIdBouquet());
+
+        // Calculate remaining stock for each activity
+        for (Activite activite : ba.getActivitels()) {
+            double restenb = ResteStock.checkReste(c, activite.getId());
+            reste.add(restenb);
+        }
+
+        // Check if there is enough stock for each activity
+        for (int j = 0; j < this.getNbvoyage(); j++) {
+            for (int i = 0; i < ba.getActivitels().size(); i++) {
+                Activite currentActivite = ba.getActivitels().get(i);
+                int nbre = Collections.frequency(ba.getActivitels(), currentActivite);
+
+                System.out.println(nbre + " nbre ooooooooooooooooooooo");
+
+                double restenb = reste.get(i) - nbre;
+                if (restenb < 0) {
+                    throw new Exception("TSY AMPY NY STOCK");
+                }
+                reste.set(i, restenb);
+
+                if (nbre > 1) {
+                    i = i + (nbre - 1);
                 }
             }
             nbPossibleInsert++;
         }
-        return nbPossibleInsert;
+    } catch (Exception ex) {
+   
+        // Handle the exception if needed, or log it
+        ex.printStackTrace();
     }
+
+    return nbPossibleInsert;
+}
+
+//    public int checkDisponibilite(Connection c) throws Exception{
+//        Voyage v=Voyage.GetByIdvoyage(c,this.getIdvoyage());
+//        BouquetActivite ba=new BouquetActivite().GetByIdBouquet(c,v.getIdBouquet());
+//        int nbPossibleInsert=0;
+//        List<Double> reste = new ArrayList<>();
+//        for(int j=0; j<this.getNbvoyage(); j++){
+//            for(int i=0 ; i<ba.getActivitels().size() ; i++){
+//                reste.add(ResteStock.checkReste(c, ba.getActivitels().get(i).getId()));
+//            }
+//        }
+//        for(int j=0; j<this.getNbvoyage(); j++){
+//            for(int i=0 ; i<ba.getActivitels().size() ; i++){
+//                int nbre=Collections.frequency(ba.getActivitels(),ba.getActivitels().get(i));
+//                System.out.println(nbre+" nbre ooooooooooooooooooooo");
+//                double restenb = reste.get(i)-nbre;
+//                if(restenb<0){
+//                    return nbPossibleInsert;
+//                    throw new Exception("TSY AMPY NY STOCK");
+//                }
+//                reste.set(i, restenb) ;
+//                if(nbre>1){
+//                    i=i+(nbre-1);
+//                }
+//            }
+//            nbPossibleInsert++;
+//        }
+//        return nbPossibleInsert;
+//    }
 }

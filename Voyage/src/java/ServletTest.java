@@ -36,7 +36,7 @@ public class ServletTest extends HttpServlet {
             System.out.println(activite[i].getPrix());
             activite[i].Insert(connexion);
         }
-        request.getRequestDispatcher("bouquet.jsp").forward(request, response);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

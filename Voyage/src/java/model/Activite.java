@@ -10,6 +10,16 @@ public class Activite {
     String id;
     String nom;
     double prix;
+    double nbactivite;
+
+    public double getNbactivite() {
+        return nbactivite;
+    }
+
+    public void setNbactivite(double nbactivite) {
+        this.nbactivite = nbactivite;
+    }
+    
     
     public String getId(){
         return this.id;
@@ -37,7 +47,12 @@ public class Activite {
     public void setNom(String nom){
         this.nom = nom;
     }
-    
+    public Activite(String id, String nom,double prix, double nbactivite) throws Exception{
+        setId(id);
+        setNom(nom);
+        setPrix(prix);
+        setNbactivite(nbactivite);
+    }
     public Activite (){}
     public Activite(String id, String nom,double prix) throws Exception{
         setId(id);
@@ -81,7 +96,7 @@ public class Activite {
         ResultSet results=prepstat.executeQuery();
         List<Activite> ls=new ArrayList<>();
         while(results.next()){
-            Activite b = new Activite(results.getString(1), results.getString(2),results.getDouble(3));;
+            Activite b = new Activite(results.getString(1), results.getString(2),results.getDouble(4));;
             ls.add(b);
         }
         prepstat.close();

@@ -20,25 +20,22 @@
         <title>JSP Page</title>
     </head>
     <style>
-        body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-}
+    form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px #ccc;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column; /* Modifier la direction de la disposition en colonne */
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
 
-form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px #ccc;
-    width: 400px; /* Adjust the width as needed */
-    text-align: center;
-}
 
 label {
     display: block;
@@ -97,6 +94,8 @@ tbody tr:nth-child(even) {
 }
 
     </style>
+      <%@ include file="header.jsp" %>
+      <div class="contenus">
     <body>
         <form action="ResteStockServlet" method="post">
             <label for="activite">SÃ©lectionnez une activitÃ© :</label>
@@ -134,5 +133,6 @@ tbody tr:nth-child(even) {
             </tbody>
             </table>
         </form>
+      </div>
     </body>
 </html>

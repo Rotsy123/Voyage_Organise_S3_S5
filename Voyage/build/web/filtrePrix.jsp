@@ -12,25 +12,24 @@
         <title>JSP Page</title>
     </head>
     <style>
-        body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-}
+  
 
-form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px #ccc;
-    width: 400px; /* Adjust the width as needed */
-    text-align: center;
-}
+    form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px #ccc;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column; /* Modifier la direction de la disposition en colonne */
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+
 
 label {
     display: block;
@@ -90,13 +89,15 @@ tbody tr:nth-child(even) {
 
     </style>
     <body>
-        
+          <%@ include file="header.jsp" %>
+    <div class="contenus">
         <form action="FiltreServlet" method="POST">
             <label for="prixMin">Prix Minimal</label>
             <input type="text" id="prixMin" name="prixMin">
             <label for="prixMax">Prix Maximal</label>
             <input type="text" id="prixMax" name="prixMax">
             <input type="submit" value="Valider">
-        </form>
+        </form
+    </div>
     </body>
 </html>

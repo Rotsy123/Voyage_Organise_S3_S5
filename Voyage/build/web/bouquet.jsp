@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Insertion de bouquet</title>
     <style>
-        body {
+ 
+#bouquet-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #ccc;
+    
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
@@ -14,13 +20,6 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-}
-
-#bouquet-form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px #ccc;
 }
 
 .entry {
@@ -57,7 +56,9 @@ button:hover {
     </style>
 </head>
 <body>
+      <%@ include file="header.jsp" %>
 
+<div class="contenus">
 <div id="bouquet-form">
     <form id="bouquetForm">
         <div class="entry">
@@ -71,7 +72,7 @@ button:hover {
         <button type="submit" onclick="validerFormulaire()">Valider</button>
     </form>
 </div>
-
+</div>
 <script>
     function ajouterChamp() { 
     var newEntry = document.createElement('div');

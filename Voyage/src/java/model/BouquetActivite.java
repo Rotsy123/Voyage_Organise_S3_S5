@@ -86,11 +86,11 @@ public class BouquetActivite {
         Bouquet b = null; 
         double nbAct=0;
         while(results.next()){
-            Activite ins=new Activite(results.getString(2), results.getString(7),results.getDouble(8));
+            Activite ins=new Activite(results.getString(2), results.getString(7),results.getDouble(8), results.getDouble(3));
             if(results.getDouble(3)>1){
                 double temp=results.getDouble(3);
                 while(temp>1){
-                    la.add(ins);
+//                    la.add(ins);
                     temp--;
                 }
             }
