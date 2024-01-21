@@ -72,11 +72,8 @@ public class SortieStock {
         this.dateSortieStock = dateSortieStock;
     }
     
-    public void Insert(Connection c) throws Exception{
-        List<BouquetActivite> ba=new Voyage().GetAllActivite(c);
-//        insertion fabrication
-        for(int i=0 ; i<ba.size() ; i++){
-            String query="insert into SortieStock (nb,idactivite,dateentreestock) values ("+this.getNb()+","+ba.get(i).getIdactivite()+",'"+this.getDateSortieStock()+"')";
+    public void Insert(Connection c , String idactivite, int nb , Date dtSortie) throws Exception{
+            String query="insert into sortiestock (nb,idactivite,datesortiestock) values ("+nb+","+idactivite+",'"+dtSortie+"')";
             PreparedStatement preparedStatement = null;
             preparedStatement = c.prepareStatement(query);
             int lignesAffectees = preparedStatement.executeUpdate();
@@ -85,19 +82,5 @@ public class SortieStock {
             } else {
                 System.out.println("Aucune donnée insérée.");
             }
-        }
-    }
-    
-    public void checkDisponibilite(Connection c) throws Exception{
-        Voyage v=Voyage.GetByIdvoyage(c,this.getIdvoyage());
-        List<BouquetActivite> lBA=v.GetAllActivite(c);
-        for(int j=0; j<this.getNb(); j++){
-            for(int i=0 ; i<lBA.size();i++){
-                double nbre = lBA.get(i).getNbactivite();
-                ResteStock.checkDisponibilite(c, lBA.get(i).getIdactivite(), nbre);
-            }
-            this.Insert(c);
-            
-        }
     }
 }

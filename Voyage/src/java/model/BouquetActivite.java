@@ -86,15 +86,16 @@ public class BouquetActivite {
         Bouquet b = null; 
         double nbAct=0;
         while(results.next()){
+            Activite ins=new Activite(results.getString(2), results.getString(7),results.getDouble(8));
             if(results.getDouble(3)>1){
                 double temp=results.getDouble(3);
                 while(temp>1){
-                    la.add(new Activite(results.getString(2), results.getString(7),results.getDouble(8)));
+                    la.add(ins);
                     temp--;
                 }
             }
-            la.add(new Activite(results.getString(2), results.getString(7),results.getDouble(8)));
-            b = new Bouquet(results.getString(4), results.getString(5));
+            la.add(ins);
+            b = new Bouquet(results.getString(5), results.getString(4));
             nbAct=nbAct+results.getDouble(3);
         }
         ba = new BouquetActivite (b, la);

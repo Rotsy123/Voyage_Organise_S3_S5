@@ -1,3 +1,8 @@
+<%@page import="model.Voyage"%>
+<%@page import="java.util.List"%>
+<%
+    List<Voyage> voyages=(List<Voyage>)request.getAttribute("voyages");
+%>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -49,11 +54,16 @@
 </head>
 <body>
 
-<form action="/submit" method="post">
+<form action="SortieStockServlet" method="post">
     <label for="Voyage">Sélectionnez un voyage :</label>
-    <select id="Voyage" name="Voyage">
-        <option value="Voyage1">Voyage 1</option>
-        <option value="Voyage2">Voyage 2</option>
+    <select id="Voyage" name="voyage">
+        <%
+            for(int i=0 ; i<voyages.size() ; i++){
+        %>
+                <option value="<%=voyages.get(i).getIdvoyage()%>"><%=voyages.get(i).getBa().getBouquet().getNom()%></option>
+        <%
+            }
+        %>
         <!-- Ajoutez d'autres options au besoin -->
     </select>
 
@@ -64,7 +74,7 @@
 
     <br>
 
-    <label for="nombreBillets">Nombre de billets :</label>
+    <label for="nombreBillets">Nombre de voyage :</label>
     <input type="number" id="nombreBillets" name="nombreBillets" min="1">
 
     <br>

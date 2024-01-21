@@ -111,6 +111,24 @@ public class Voyage {
         return resultTime;
     }
     
+    public static List<Voyage> GetAllVoyage(Connection connexion) throws Exception{
+        String query="select * from Voyage;";
+        PreparedStatement prepstat=null;
+        prepstat=connexion.prepareStatement(query);
+        ResultSet results= prepstat.executeQuery();
+        BouquetActivite ba = null;
+        List<Voyage> la = new ArrayList<>();
+        Voyage b = null; 
+        while(results.next()){
+            BouquetActivite baqa= new BouquetActivite().GetByIdBouquet(connexion, results.getString(2));
+             Iterator<Activite> iterator = baqa.getActivitels().iterator();
+            b=new Voyage(results.getString(2), results.getDouble(3),results.getString(4),results.getDouble(5),baqa);
+            b.setIdvoyage(results.getString(1)); 
+            la.add(b);
+        }
+        return la;
+    }
+    
     public void Insert (Connection connexion) throws SQLException{
         System.out.print("Insert into voyage (idBouquet,dureejours,idcategorie,prix) values ("+ this.getIdBouquet()+","+ this.getDureejour()+","+this.getIdCateLieu()+","+this.getPrix()+")");
         String requete ="Insert into voyage (idbouquet,dureejours,idcategorie,prix) values ("+ this.getIdBouquet()+","+ this.getDureejour()+","+this.getIdCateLieu()+","+this.getPrix()+")";
@@ -148,6 +166,7 @@ public class Voyage {
             BouquetActivite baqa= new BouquetActivite().GetByIdBouquet(connexion, results.getString(2));
              Iterator<Activite> iterator = baqa.getActivitels().iterator();
             b = new Voyage(results.getString(2), results.getDouble(3),results.getString(4),results.getDouble(5),baqa);
+            b.setIdvoyage(results.getString(1));
         }
         return b;
     }
