@@ -6,7 +6,7 @@
   <style>
 
     .navbar {
-      height:100vh; 
+      height:95vh; 
       width: 200px;
       position: fixed;
       background-color: #333;
@@ -52,14 +52,13 @@
     <a href="categoriempiasa.jsp">Nouvelle Categorie d'employe</a>
     <a href="FabricationServlet">Conception de nouveau voyage</a>
     <a href="filtreBenefice.jsp">Filtre par rapport au benefice</a>
+    <a href="EmployeServlet">Liste employés avec ancienneté</a>
 
 
 
   </div>
 
   <div class="contenus">
-    <h2>Contenu principal de la page</h2>
-    <p>Ce contenu est Ã  cÃ´tÃ© de la barre de navigation.</p>
   </div>
 </body>
 </html>

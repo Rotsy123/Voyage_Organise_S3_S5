@@ -3,44 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/EntreeStockServlet.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/model/SortieStock.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/web/AfficheVoyage.jsp</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/web/insertionMpiasa.jsp</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/FiltreBeneficeServlet.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/web/index.jsp</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/AfficheActiviteServlet.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/web/sortie.jsp</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/web/AfficheActivite.jsp</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/web/filtreBenefice.jsp</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/web/resteStock.jsp</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/web/bouquet.jsp</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/model/ResteStock.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/ResteStockServlet.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/ServletTest.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/web/header.jsp</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/model/Mpiasa.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/AfficheVoyage.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/model/Voyage.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/FabricationServlet.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/model/Connexion.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/web/entree.jsp</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/web/filtrePrix.jsp</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/web/voyageInsertion.jsp</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/VoyageInsertion.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/web/Fabrication.jsp</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/CategorieMpiasaServlet.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/MpiasaInsertionServlet.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/web/listeVoyageBenefice.jsp</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/FiltreServlet.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/SortieStockServlet.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/model/Fabrication.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/model/Activite.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/model/FabricationVoyage.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/model/CategorieMpiasa.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/web/categoriempiasa.jsp</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/src/java/model/BouquetActivite.java</file>
-            <file>file:/D:/Mme%20Baovola/Voyage_Organise_S3_S5-main/Voyage/web/listeVoyagePrix.jsp</file>
+            <file>file:/C:/Users/USER/Documents/NetBeansProjects/Voyage_Organise_S3_S5/Voyage/src/java/model/Connexion.java</file>
         </group>
     </open-files>
 </project-private>

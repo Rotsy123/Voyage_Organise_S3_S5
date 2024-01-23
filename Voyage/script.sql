@@ -120,6 +120,7 @@ create table Mpiasa(
     Dtn DATE,
     idCategorie int,
     SalaireHoraire double precision,
+    DtEmbauche DATE,
     FOREIGN KEY (idCategorie) REFERENCES CategorieMpiasa(id)
 );
 
@@ -164,3 +165,38 @@ mpiasa
 join fabricationvoyage on fabricationvoyage.idmpiasa = mpiasa.id
 join voyage on voyage.idvoyage = fabricationvoyage.idvoyage
 group by fabricationvoyage.idvoyage;
+
+create table Grade(
+    idGrade serial primary key,
+    Nom VARCHAR(50),
+    Grade INT,
+    ancienneteMin int,
+    ancienneteMax int
+);
+
+insert into Grade (Nom,Grade,ancienneteMin,ancienneteMax) values ('Ouvrier',1,0,2);
+insert into Grade (Nom,Grade,ancienneteMin,ancienneteMax) values ('Senior',2,2,3);
+insert into Grade (Nom,Grade,ancienneteMin,ancienneteMax) values ('Expert',3,3,10000);
+
+insert into categoriempiasa (categorie) values('Cuisinier');
+insert into categoriempiasa (categorie) values('Gérant d hotel');
+
+
+create or replace view v_checkgrade as
+SELECT
+    m.id,
+    m.Nom,
+    m.Dtn,
+    m.salairehoraire*g.grade as salairehoraire,
+    m.dtembauche,
+    EXTRACT(YEAR FROM AGE(current_date, m.dtembauche)) as anciennete,
+    g.nom AS Grade
+FROM
+    Mpiasa m
+JOIN categoriempiasa on categoriempiasa.id= m.idcategorie
+JOIN
+    grade g ON EXTRACT(YEAR FROM AGE(current_date, m.dtembauche)) >= g.ancienneteMin
+           AND EXTRACT(YEAR FROM AGE(current_date, m.dtembauche)) < g.ancienneteMax;
+
+
+
