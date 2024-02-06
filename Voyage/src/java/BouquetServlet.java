@@ -7,8 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -37,24 +37,11 @@ public class BouquetServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException, Exception {
-        BufferedReader reader = request.getReader();
-        StringBuilder stringBuilder = new StringBuilder();
-        String line;
-        Connexion c = new Connexion();
-        Connection connexion = c.GetConnection();
-        while ((line = reader.readLine()) != null) {
-            stringBuilder.append(line);
-        }
-        String jsonData = stringBuilder.toString();
-        ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(jsonData);
-        Bouquet[] bouquet = objectMapper.readValue(jsonData, Bouquet[].class);
-        System.out.println(bouquet.length + " TAILLE");
-        for (int i = 0; i < bouquet.length; i++) {
-            System.out.println(bouquet[i].getNom());
-            bouquet[i].InsererBouquet(connexion);
-        }
-        request.getRequestDispatcher("BouquetActiviteServlets").forward(request, response);
+            Connexion c = new Connexion();
+            Connection connexion = c.GetConnection();
+            List<Bouquet> bouquetall = new Bouquet().GetAllBouquet(connexion);
+            request.setAttribute("bouquet", bouquetall);
+            request.getRequestDispatcher("bouquet.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
@@ -93,11 +80,26 @@ public class BouquetServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BouquetServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(BouquetServlet.class.getName()).log(Level.SEVERE, null, ex);
+            BufferedReader reader = request.getReader();
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            Connexion c = new Connexion();
+            Connection connexion = c.GetConnection();
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+            String jsonData = stringBuilder.toString();
+            ObjectMapper objectMapper = new ObjectMapper();
+            System.out.println(jsonData);
+            Bouquet[] bouquet = objectMapper.readValue(jsonData, Bouquet[].class);
+            System.out.println(bouquet.length + " TAILLE");
+            for (int i = 0; i < bouquet.length; i++) {
+                System.out.println(bouquet[i].getNom());
+                bouquet[i].InsererBouquet(connexion);
+            }  
+            List<Bouquet> bouquetall = new Bouquet().GetAllBouquet(connexion);
+            request.setAttribute("bouquet", bouquetall);
+            request.getRequestDispatcher("bouquet.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(BouquetServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

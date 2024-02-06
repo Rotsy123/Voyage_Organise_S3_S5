@@ -92,11 +92,12 @@ tbody tr:nth-child(even) {
           <%@ include file="header.jsp" %>
     <div class="contenus">
         <form action="FiltreServlet" method="POST">
+            <h1>FILTRER LES VOYAGES PAR PRIX (MATIERES PREMIERES)</h1>
             <label for="prixMin">Prix Minimal</label>
             <input type="text" id="prixMin" name="prixMin">
             <label for="prixMax">Prix Maximal</label>
             <input type="text" id="prixMax" name="prixMax">
-            <input type="submit" value="Valider">
+            <button type="submit" value="Valider">VALIDER</button>
         </form
     </div>
     </body>

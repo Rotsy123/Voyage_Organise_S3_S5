@@ -60,11 +60,12 @@ public class ResteStock {
     
     public static double checkReste(Connection c , String idactivite) throws Exception{
         ResteStock rs=ResteStock.GetByIdActivite(c, idactivite);
-        double reste=rs.getStockactuel();
+        double reste= rs.getStockactuel();
         return reste;
     }
+    
     public static double checkDisponibiliteDouble(double initiale, double nb) throws Exception{
-        double reste=initiale-nb; 
+        double reste= initiale-nb; 
         if(reste<0){
             throw new Exception("TSY AMPY NY AO ANATY STOCK");
         }

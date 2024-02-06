@@ -1,10 +1,7 @@
-<%-- 
-    Document   : listeEmploye
-    Created on : Jan 23, 2024, 2:59:08 PM
-    Author     : USER
---%>
-<%@page import="model.Grade"%>
+<%@page import="model.CategorieMpiasa"%>
 <%@page import="model.Mpiasa"%>
+<%@page import="model.Grade"%>
+
 <%@page import="java.util.List"%>
 <%
     List<Mpiasa> lsMpiasa=(List<Mpiasa>)request.getAttribute("employes");
@@ -105,6 +102,7 @@ tbody tr:nth-child(even) {
                 <th>Salaire</th>
                 <th>Grade</th>
                 <th>Ancienneté</th>
+                <th>Poste</th>
             </tr>
         </thead>
         <tbody>
@@ -118,6 +116,7 @@ tbody tr:nth-child(even) {
                     <td><%=lsGrade.get(i).getKaram()  %></td>
                     <td><%=lsGrade.get(i).getNom()  %></td>
                     <td><%=lsGrade.get(i).getAnciennete()  %></td>
+                    <td><%=CategorieMpiasa.getByIdMpiasa(lsMpiasa.get(i).getId()).getNom()%></td>
         </tr>
         <% } %>
         </tbody>

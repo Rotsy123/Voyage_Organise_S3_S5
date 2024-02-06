@@ -95,11 +95,12 @@ public class AfficheVoyage extends HttpServlet {
         Connexion conn=new Connexion();
         Connection c=conn.GetConnection();
         String idactivite= request.getParameter("activite");
-        System.out.println(idactivite);
         List<Activite> all = new Activite().GetAllActivite(c);
         request.setAttribute("activite", all);
         List<Voyage> allVoyage=new Voyage().getByIdActivite(c, idactivite);
         request.setAttribute("voyage",allVoyage);
+                System.out.println(idactivite + "ioooo"+ all.size()+"   "+ allVoyage.size());
+        
         request.getRequestDispatcher("AfficheVoyage.jsp").forward(request,response);
             
         } catch (SQLException ex) {

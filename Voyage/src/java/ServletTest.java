@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -18,25 +19,12 @@ import model.Connexion;
 public class ServletTest extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, Exception {
-        BufferedReader reader = request.getReader();
-        StringBuilder stringBuilder=new StringBuilder();
-        String line;
-        Connexion c=new Connexion();
-        Connection connexion=c.GetConnection();
-        while((line=reader.readLine())!=null){
-            stringBuilder.append(line);
-        }
-        String jsonData=stringBuilder.toString();
-        ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(jsonData);
-        Activite[] activite = objectMapper.readValue(jsonData, Activite[].class);
-        System.out.println(activite.length+" TAILLE");
-        for(int i=0; i<activite.length; i++){
-            System.out.println(activite[i].getNom());
-            System.out.println(activite[i].getPrix());
-            activite[i].Insert(connexion);
-        }
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        
+            Connexion c=new Connexion();
+            Connection connexion=c.GetConnection();
+            List<Activite> activiteall = new Activite().GetAllActivite(connexion);
+            request.setAttribute("activiteall", activiteall);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -72,9 +60,27 @@ public class ServletTest extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ServletTest.class.getName()).log(Level.SEVERE, null, ex);
+            BufferedReader reader = request.getReader();
+            StringBuilder stringBuilder=new StringBuilder();
+            String line;
+            Connexion c=new Connexion();
+            Connection connexion=c.GetConnection();
+            while((line=reader.readLine())!=null){
+                stringBuilder.append(line);
+            }
+            String jsonData=stringBuilder.toString();
+            ObjectMapper objectMapper = new ObjectMapper();
+            System.out.println(jsonData);
+            Activite[] activite = objectMapper.readValue(jsonData, Activite[].class);
+            System.out.println(activite.length+" TAILLE");
+            for(int i=0; i<activite.length; i++){
+                System.out.println(activite[i].getNom());
+                System.out.println(activite[i].getPrix());
+                activite[i].Insert(connexion);
+            }
+            List<Activite> activiteall = new Activite().GetAllActivite(connexion);
+            request.setAttribute("allactivite", activiteall);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ServletTest.class.getName()).log(Level.SEVERE, null, ex);
         }

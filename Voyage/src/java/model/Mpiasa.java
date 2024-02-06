@@ -25,6 +25,7 @@ public class Mpiasa {
     int idCategorie;
     double salaireHoraire;
     Date dtembauche;
+    
     public Date getDtembauche() {
         return dtembauche;
     }
@@ -38,7 +39,6 @@ public class Mpiasa {
         }
         this.dtembauche = dtembauche;
     }
-
     public int getId() {
         return id;
     }
@@ -82,7 +82,7 @@ public class Mpiasa {
     public Mpiasa() {
     }
 
-    public Mpiasa(int id, String nom, Date dtn, int idCategorie, double salaireHoraire,Date dtembauche) throws Exception{
+        public Mpiasa(int id, String nom, Date dtn, int idCategorie, double salaireHoraire,Date dtembauche) throws Exception{
         this.id = id;
         this.nom = nom;
         this.dtn = dtn;
@@ -101,9 +101,9 @@ public class Mpiasa {
     }
     
     
-    
     public void Insert (Connection connexion) throws SQLException{
         String requete = "Insert into mpiasa (nom,dtn,idcategorie,salairehoraire,dtembauche) values ('"+ this.getNom()+"','"+this.getDtn()+"',"+this.getIdCategorie()+","+this.getSalaireHoraire()+",'"+this.getDtembauche()+"')";
+
         System.out.println(requete);
         PreparedStatement preparedStatement = null;
         preparedStatement = connexion.prepareStatement(requete);
@@ -123,13 +123,25 @@ public class Mpiasa {
         ResultSet results=prepareStatement.executeQuery();
         List<Mpiasa> ls=new ArrayList<>();
         while(results.next()){
-            ls.add(new Mpiasa(results.getInt(1),results.getString(2), results.getDate(3),results.getInt(4),results.getDouble(5),results.getDate(6)));
+                        ls.add(new Mpiasa(results.getInt(1),results.getString(2), results.getDate(3),results.getInt(4),results.getDouble(5),results.getDate(6)));
+
         }
         prepareStatement.close();
         connexion.GetConnection().close();
         return ls;
     }
-    
+    public void Update()throws Exception{
+        Connexion connexion = new Connexion();
+        String requete = "update mpiasa set salairehoraire = "+this.getSalaireHoraire()+" where id ="+this.getId();
+        PreparedStatement preparedStatement = null;
+        preparedStatement = connexion.GetConnection().prepareStatement(requete);
+        int lignesAffectees = preparedStatement.executeUpdate();
+        if (lignesAffectees > 0) {
+            System.out.println("Données insérées avec succès !");
+        } else {
+            System.out.println("Aucune donnée insérée.");
+        }
+    }
     public Grade GetGrade() throws Exception{
         Connexion connexion = new Connexion();
         String requete = "Select * from v_checkgrade where id="+this.getId();

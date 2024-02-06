@@ -2,7 +2,9 @@
 <%@page import="java.util.List"%>
 <%
     List<Voyage> voyages=(List<Voyage>)request.getAttribute("voyages");
+    String message = (String)request.getAttribute("message");
 %>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -51,42 +53,55 @@
 </style>
 
 </head>
+<style>
+        .erreur-message {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
 <body>
   <%@ include file="header.jsp" %>
   <div class="contenus">
-<form action="SortieStockServlet" method="post">
-    <label for="Voyage">Sélectionnez un voyage :</label>
-    <select id="Voyage" name="voyage">
-        <% if (voyages != null && !voyages.isEmpty()) { %>
-            <%
-                for (int i = 0; i < voyages.size(); i++) {
-                    Voyage currentVoyage = voyages.get(i);
-                    if (currentVoyage != null && currentVoyage.getBa() != null && currentVoyage.getBa().getBouquet() != null) {
-            %>
-                        <option value="<%=currentVoyage.getIdvoyage()%>"><%=currentVoyage.getBa().getBouquet().getNom()%></option>
-            <%
+      <%if(message!=null){%>
+        <div class="erreur-message">
+               
+            <%= message %>
+        </div>
+    <%}else{%>
+    <form action="SortieStockServlet" method="post">
+        <label for="Voyage">Sélectionnez un voyage :</label>
+        <select id="Voyage" name="voyage">
+            <% if (voyages != null && !voyages.isEmpty()) { %>
+                <%
+                    for (int i = 0; i < voyages.size(); i++) {
+                        Voyage currentVoyage = voyages.get(i);
+                        if (currentVoyage != null && currentVoyage.getBa() != null && currentVoyage.getBa().getBouquet() != null) {
+                %>
+                            <option value="<%=currentVoyage.getIdvoyage()%>"><%=currentVoyage.getBa().getBouquet().getNom()%></option>
+                <%
+                        }
                     }
-                }
-            %>
-        <% } %>
-        <!-- Ajoutez d'autres options au besoin -->
-    </select>
+                %>
+            <% } %>
+            <!-- Ajoutez d'autres options au besoin -->
+        </select>
 
-    <br>
+        <br>
 
-    <label for="date">Date :</label>
-    <input type="date" id="date" name="date">
+        <label for="date">Date :</label>
+        <input type="date" id="date" name="date">
 
-    <br>
+        <br>
 
-    <label for="nombreBillets">Nombre de voyage :</label>
-    <input type="number" id="nombreBillets" name="nombreBillets" min="1">
+        <label for="nombreBillets">Nombre de voyage :</label>
+        <input type="number" id="nombreBillets" name="nombreBillets" min="1">
 
-    <br>
+        <br>
 
 
-    <input type="submit" value="Soumettre">
-</form>
+        <input type="submit" value="Soumettre">
+    </form>
+ <%}%>
   </div>
 </body>
 </html>

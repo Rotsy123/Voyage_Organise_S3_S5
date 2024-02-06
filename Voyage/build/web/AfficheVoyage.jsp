@@ -83,54 +83,46 @@ form {
 <body>
   <%@ include file="header.jsp" %>
   <div class="contenus">
+      
 <form action="AfficheVoyage" method="post">
      <label for="activite">Nom activite</label>
             <select name="activite" id="activite">
-                <%for(int i=0; i<activite.size(); i++){%>
+                <%for(int i = 0; activite != null && i < activite.size(); i++){%>
                     <option id="activite" name="activite" value="<%=activite.get(i).getId()%>"><%=activite.get(i).getNom()%></option>
                 <%}%>
             </select>
     <button type="submit">Afficher les voyages</button>
-<!--
-    <ul>
-        <%if(voyage!=null){%>
-         Remplacez ces valeurs par les activités réelles récupérées de votre servlet 
-            <%for(int i=0; i<voyage.size(); i++){%>
-            
-            <%for(int k=0; k<voyage.get(i).getBa().getActivitels().size(); k++){%>
-                            <li><%=voyage.get(i).getBa().getBouquet().getNom()%> ------- <%=voyage.get(i).getBa().getActivitels().get(k).getNom()%>--------<%=voyage.get(i).getBa().getActivitels().size()%></li>
-
-<%}%>
-            <%}%>
-      
-        <%}%>
-        
-    </ul>-->
-        <% if (voyage != null) { %>
-    <table>
-        <thead>
-            <tr>
-                <th>Bouquet</th>
-                <th>Duree en jour</th>
-                <th>Prix</th>
-                <th>Nombre activite</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% for (int i = 0; i < voyage.size(); i++) { %>
+    <% if (voyage != null) { %>
+    <%try{%>
+        <table>
+            <thead>
                 <tr>
-                    <td><%= voyage.get(i).getBa().getBouquet().getNom() %></td>
-                    <td><%= voyage.get(i).getDureejour() %></td>
-                    <td><%= voyage.get(i).getPrix() %></td>
-                    <td><%= voyage.get(i).getBa().getActivitels().size() %></td>
+                    <th>Bouquet</th>
+                    <th>Duree en jour</th>
+                    <th>Prix</th>
+                    <th>Nombre activite</th>
                 </tr>
-            <% } %>
-        </tbody>
-    </table>
-<% } %>
+            </thead>
+            <tbody>
+                <% for (int i = 0; i < voyage.size(); i++) { %>
+                    <tr>
+                        <td><%= voyage.get(i).getBa().getBouquet().getNom() %></td>
+                        <td><%= voyage.get(i).getDureejour() %></td>
+                        <td><%= voyage.get(i).getPrix() %></td>
+                        <td><%= voyage.get(i).getBa().getActivitels().size() %></td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+            <%}catch(Exception e){%>
+            <%=e.getMessage()%>
+            <%}%>
+    <% } %>
 
             
 </form>
+
+    
   </div>
 </body>
 </html>

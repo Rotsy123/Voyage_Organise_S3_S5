@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.sql.PreparedStatement;
@@ -14,6 +10,19 @@ public class CategorieMpiasa {
     String id;
     String nom;
     
+    public static CategorieMpiasa getByIdMpiasa(int idmpiasa) throws Exception{
+        String requete = "select*from mpiasa join categoriempiasa on mpiasa.idcategorie=categoriempiasa.id where mpiasa.id = "+idmpiasa;
+        Connexion connexion = new Connexion();
+        PreparedStatement prepareStatement=null;
+        prepareStatement=connexion.GetConnection().prepareStatement(requete);
+        ResultSet results=prepareStatement.executeQuery();
+        while(results.next()){
+            return new CategorieMpiasa(results.getString("idcategorie"), results.getString("categorie"));
+        }
+        prepareStatement.close();
+        connexion.GetConnection().close();
+        return null;
+    }
     public void Inserer()throws Exception{
         Connexion connexion = new Connexion();
         String requete = "insert into categoriempiasa (categorie) values ('"+this.getNom()+"')";

@@ -1,7 +1,8 @@
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,8 +64,10 @@ public class AfficheActiviteServlet extends HttpServlet {
         BouquetActivite bq = new BouquetActivite().GetByIdBouquet(connexion, idbouquet);
         List<Activite> allactivite = bq.getActivitels();
         List<Bouquet> all = new Bouquet().GetAllBouquet(connexion);
+        HashSet<Activite> ensembleSansDoublons = new HashSet<>(allactivite);
+List<Activite> listeSansDoublons = new ArrayList<>(ensembleSansDoublons);
         request.setAttribute("bouquet", all);
-        request.setAttribute("activite", allactivite);
+        request.setAttribute("activite", listeSansDoublons);
         request.getRequestDispatcher("AfficheActivite.jsp").forward(request, response);
     
         } catch (SQLException ex) {

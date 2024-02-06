@@ -75,10 +75,11 @@ public class MpiasaInsertionServlet extends HttpServlet {
         try{
             String nom=request.getParameter("nom");
             Date dt=Date.valueOf(request.getParameter("dtn"));
-            Date dtembauche=Date.valueOf(request.getParameter("dtembauche"));
             int categorie=Integer.parseInt(request.getParameter("categorie"));
             double salaire=Double.parseDouble(request.getParameter("salaire"));
-            Mpiasa toInsert=new Mpiasa(nom,dt,categorie,salaire,dtembauche);
+            Date dtembauche=Date.valueOf(request.getParameter("dtembauche"));
+
+            Mpiasa toInsert=new Mpiasa(nom,dt,categorie,salaire, dtembauche);
             toInsert.Insert(new Connexion().GetConnection());
             List<CategorieMpiasa> lsC=CategorieMpiasa.GetAll();
             request.setAttribute("lscate",lsC);

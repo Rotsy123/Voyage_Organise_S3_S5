@@ -84,12 +84,12 @@ public class SortieStockServlet extends HttpServlet {
             toInsert.Insert(conn.GetConnection());
             List<Voyage> allVoyage=new Voyage().GetAllVoyage(conn.GetConnection());
             request.setAttribute("voyages",allVoyage);
-            
             request.getRequestDispatcher("sortie.jsp").forward(request, response);
         } catch (Exception ex) {
                 System.out.println("ERREUR: "+ ex.getMessage());
-
-            Logger.getLogger(SortieStockServlet.class.getName()).log(Level.SEVERE, null, ex);
+             request.setAttribute("message",ex.getMessage());
+            
+            request.getRequestDispatcher("sortie.jsp").forward(request, response);
         }
     }
 

@@ -140,9 +140,11 @@ public class Voyage {
         Voyage b = null; 
         while(results.next()){
             BouquetActivite baqa= new BouquetActivite().GetByIdBouquet(connexion, results.getString(2));
+
              Iterator<Activite> iterator = baqa.getActivitels().iterator();
             b=new Voyage(results.getString(2), results.getDouble(3),results.getString(4),results.getDouble(5),baqa);
             b.setIdvoyage(results.getString(1)); 
+            b.setTaille(results.getInt(6));
             la.add(b);
         }
         return la;
@@ -282,5 +284,12 @@ public class Voyage {
             }
         }
         return res;
+    }
+    
+    public String getTailleString(){
+        if(this.getTaille()==1){
+            return "court";
+        }
+        return "long";
     }
 }

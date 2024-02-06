@@ -12,7 +12,7 @@ public class Connexion {
         try {
             if (connexion == null) {
                 Class.forName("org.postgresql.Driver");
-                connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/voyage", "postgres", "postgres");
+                connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/voyage", "postgres", "root");
             } else {
                 throw new Exception("La connexion à la base de données a échoué.");
             }

@@ -1,9 +1,10 @@
+<%@page import="model.Voyage"%>
 <%@page import="model.CategorieLieu"%>
 <%@page import="model.Bouquet"%>
 <%@page import="java.util.List"%>
 <%List<Bouquet> bouquet = (List<Bouquet>) request.getAttribute("bouquet");%>
 <%List<CategorieLieu> cateLieu = (List<CategorieLieu>) request.getAttribute("cateLieu");%>
-
+<%List<Voyage> all =(List<Voyage>) request.getAttribute("allvoyage");%>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -33,11 +34,14 @@
     </style>
 </head>
 <body>
+    
       <%@ include file="header.jsp" %>
 <div class="contenus">
 <div id="bouquet-form">
     <form id="bouquetForm">
-        <div class="entry">
+        <h1>INSERER UN NOUVEAU VOYAGE</h1>
+        <div class="entry"> 
+
             <label for="bouquet">Nom bouquet©</label>
             <select name="bouquet" id="bouquet">
                 <%for(int i=0; i<bouquet.size(); i++){%>
@@ -63,39 +67,33 @@
         </div>
 
         <div id="entriesContainer"></div>
-
-        <button type="button" onclick="ajouterChamp()">Ajouter</button>
+ 
         <button type="submit" onclick="validerFormulaire()">Valider</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Bouquet</th>
+                    <th>Duree</th>
+                    <th>Taille</th>
+                    <th>Prix</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%for(int i=0; i<all.size(); i++){%>
+                    <tr>
+                        <td><%=all.get(i).getBa().getBouquet().getNom()%></td>
+                        <td><%=all.get(i).getDureejour()%></td>
+                        <td><%=all.get(i).getTailleString()%></td>
+                        <td><%=all.get(i).getPrix()%></td>
+                    </tr>
+                <%}%>
+            </tbody>
+        </table>
     </form>
 </div>
 
 <script>
-    function ajouterChamp() { 
-    var newEntry = document.createElement('div');
-    newEntry.className = 'entry';
-    var uniqueId = Date.now(); 
- 
-    newEntry.innerHTML = `
-        <label for="bouquet">Nom bouquet©</label>
-            <select name="bouquet" id="bouquet">
-
-    <%for(int i=0; i<bouquet.size(); i++){%>
-                    <option id="bouquet" name="bouquet" value="<%=bouquet.get(i).getIdBouquet()%>"><%=bouquet.get(i).getNom()%></option>
-                <%}%>
-            </select>
-        <label for="activite_${uniqueId}">Nom Activite©</label>
-        <select name="activite_${uniqueId}" id="activite_${uniqueId}">
-            <%for(int i=0; i<cateLieu.size(); i++){%>
-                <option name="activite_${uniqueId}" id="activite_${uniqueId}" value="<%=cateLieu.get(i).getId()%>"><%=cateLieu.get(i).getNom()%></option>
-            <%}%>
-        </select>
-        <label for="duree_${uniqueId}">Duree</label>
-        <input type="number" step="0.01" id="duree_${uniqueId}" name="duree_${uniqueId}" required>
-<label for="prix_${uniqueId}">Prix</label>
-        <input type="number" step="0.01" id="prix_${uniqueId}" name="prix_${uniqueId}" required>
-    `; 
-    document.getElementById('entriesContainer').appendChild(newEntry);
-}
+  
         
 
     function validerFormulaire() {

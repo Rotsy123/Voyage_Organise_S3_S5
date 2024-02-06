@@ -1,58 +1,12 @@
- <!DOCTYPE html>
+ <%@page import="model.Activite"%>
+<%@page import="java.util.List"%>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Insertion d'activités</title>
     <style>
- 
-
-#activite-form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px #ccc;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-}
-
-.entry {
-    margin-bottom: 10px;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-}
-
-button {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
     </style>
 </head>
   <%@ include file="header.jsp" %>
@@ -61,6 +15,8 @@ button:hover {
     <div class="contenus">
 <div id="activite-form">
     <form id="activiteForm">
+        <h1>INSERER UNE NOUVELLE ACTIVITE</h1>
+            
         <div class="entry">
             <label for="nomActivite">Nom activité</label>
             <input type="text" id="nomActivite">
@@ -72,6 +28,23 @@ button:hover {
 
         <button type="button" onclick="ajouterChamp()">Ajouter</button>
         <button type="submit" onclick="validerFormulaire()">Valider</button>
+        <%List<Activite> activite =(List<Activite>) request.getAttribute("activiteall");%>
+        <table>
+            <thead>
+                <tr>
+                    <th>NOM</th>
+                    <th>PRIX</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%for(int i=0; i<activite.size(); i++){%>
+                    <tr>
+                        <td><%=activite.get(i).getNom()%></td>
+                        <td><%=activite.get(i).getPrix()%></td>
+                    </tr>
+                <%}%>
+            </tbody>
+        </table>
     </form>
 </div>
 

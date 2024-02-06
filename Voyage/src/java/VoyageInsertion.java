@@ -47,8 +47,10 @@ public class VoyageInsertion extends HttpServlet {
         
         List<CategorieLieu> allCateLieu=new CategorieLieu().GetAllCategorieLieu(c);
         List<Bouquet> allBouquet = new Bouquet().GetAllBouquet(c);
+        List<Voyage> all= Voyage.GetAllVoyage(c);
         request.setAttribute("bouquet",allBouquet);
         request.setAttribute("cateLieu", allCateLieu);
+        request.setAttribute("allvoyage", all);
         request.getRequestDispatcher("voyageInsertion.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(VoyageInsertion.class.getName()).log(Level.SEVERE, null, ex);

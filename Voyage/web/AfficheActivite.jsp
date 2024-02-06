@@ -28,7 +28,7 @@
     }
 
     label {
-        display: block;
+        /*display: block;*/
         margin-bottom: 10px;
     }
 
@@ -85,6 +85,7 @@
   <%@ include file="header.jsp" %>
   <div class="contenus">
 <form action="AfficheActiviteServlet" method="post">
+    <h1>VOIR LES ACTIVITES DANS UN BOUQUET  </h1>
      <label for="bouquet">Nom bouquet©</label>
             <select name="bouquet" id="bouquet">
                 <%for(int i=0; i<bouquet.size(); i++){%>
@@ -102,7 +103,7 @@
         </thead>
         <tbody>
             <%if(activite!=null){%>
-            <%=activite.size()%>
+            <%--<%=activite.size()%>--%>
                 <%for(int i=0; i<activite.size(); i++){%>
                     <tr>
 

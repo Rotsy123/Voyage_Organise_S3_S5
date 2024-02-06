@@ -7,6 +7,7 @@ package model;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -100,8 +101,23 @@ public class Fabrication {
         }
     }
     
+    public int checkDisponibiliteParIdvoyage(Connection c) throws Exception{
+        String requete = "select * from v_restefabrique where idvoyage ="+this.getIdvoyage();
+        PreparedStatement prepareStatement=null;
+        prepareStatement=c.prepareStatement(requete);
+        ResultSet results=prepareStatement.executeQuery();
+        if(results.next()){
+            int stock = results.getInt("stock_actuel");
+            if(stock>=this.getNbvoyage()){
+                return 1;
+            }else{
+                throw new Exception("TSY AMPY NY STOCK ao");
+            }
+        }
+        return 0;
+    }
     
-    public int checkDisponibilite(Connection c) {
+    public int checkDisponibilite(Connection c) throws Exception{
     Voyage v = null;
     BouquetActivite ba = null;
     int nbPossibleInsert = 0;
@@ -122,7 +138,7 @@ public class Fabrication {
             for (int i = 0; i < ba.getActivitels().size(); i++) {
                 Activite currentActivite = ba.getActivitels().get(i);
                 int nbre = Collections.frequency(ba.getActivitels(), currentActivite);
-
+//                    int nbre = (int)ba.getActivitels().get(i).getNbactivite();
                 System.out.println(nbre + " nbre ooooooooooooooooooooo");
 
                 double restenb = reste.get(i) - nbre;
@@ -138,9 +154,9 @@ public class Fabrication {
             nbPossibleInsert++;
         }
     } catch (Exception ex) {
-   
+        throw new Exception("TSY AMPY NY STOCK AO" );
         // Handle the exception if needed, or log it
-        ex.printStackTrace();
+//        ex.printStackTrace();
     }
 
     return nbPossibleInsert;

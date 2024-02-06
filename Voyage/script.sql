@@ -79,6 +79,7 @@ select voyage.idvoyage,voyage.idbouquet,voyage.dureejours,voyage.idcategorie,v_p
 
 select * from voyage join bouquetactivite on bouquetactivite.idbouquet=voyage.idbouquet join activite on bouquetactivite.idactivite=activite.idactivite;
 
+-- maka activite anaty voyage
 create view v_voyagebouquetact as
 select idvoyage,voyage.idbouquet,dureejours,idcategorie,prix,idactivite,nbactivite from voyage join bouquetactivite on voyage.idbouquet=bouquetactivite.idbouquet;
 
@@ -120,7 +121,6 @@ create table Mpiasa(
     Dtn DATE,
     idCategorie int,
     SalaireHoraire double precision,
-    DtEmbauche DATE,
     FOREIGN KEY (idCategorie) REFERENCES CategorieMpiasa(id)
 );
 
@@ -157,7 +157,9 @@ INSERT INTO SortieStock (nb, idactivite, DateSortieStock) VALUES
 
 
 create or replace view prixactiviteparentree as
-select voyage.idvoyage,  sum (bouquetactivite.nbactivite*entreestock.prix) from voyage join bouquetactivite on voyage.idbouquet = bouquetactivite.idbouquet join entreestock on entreestock.idactivite= bouquetactivite.idactivite group by voyage.idvoyage;
+select voyage.idvoyage,  sum (bouquetactivite.nbactivite*entreestock.prix) from voyage 
+join bouquetactivite on voyage.idbouquet = bouquetactivite.idbouquet 
+join entreestock on entreestock.idactivite= bouquetactivite.idactivite group by voyage.idvoyage;
 
 create or replace view KaramaMpiasa as 
 select sum(mpiasa.salairehoraire*horaire*voyage.taille), fabricationvoyage.idvoyage from
@@ -166,21 +168,20 @@ join fabricationvoyage on fabricationvoyage.idmpiasa = mpiasa.id
 join voyage on voyage.idvoyage = fabricationvoyage.idvoyage
 group by fabricationvoyage.idvoyage;
 
-create table Grade(
-    idGrade serial primary key,
-    Nom VARCHAR(50),
-    Grade INT,
+create table grade(
+    idgrade serial primary key,
+    nom varchar(50),
+    grade int,
     ancienneteMin int,
     ancienneteMax int
 );
 
-insert into Grade (Nom,Grade,ancienneteMin,ancienneteMax) values ('Ouvrier',1,0,2);
-insert into Grade (Nom,Grade,ancienneteMin,ancienneteMax) values ('Senior',2,2,3);
-insert into Grade (Nom,Grade,ancienneteMin,ancienneteMax) values ('Expert',3,3,10000);
+insert into grade (nom, grade, ancienneteMin, ancienneteMax) values
+('Ouvrier', 1, 0,2),
+('Senior', 2, 2,3),
+('Ouvrier', 3, 3,10000);
 
-insert into categoriempiasa (categorie) values('Cuisinier');
-insert into categoriempiasa (categorie) values('Gérant d hotel');
-
+alter table mpiasa add column dtembauche date;
 
 create or replace view v_checkgrade as
 SELECT
@@ -193,10 +194,88 @@ SELECT
     g.nom AS Grade
 FROM
     Mpiasa m
-JOIN categoriempiasa on categoriempiasa.id= m.idcategorie
 JOIN
     grade g ON EXTRACT(YEAR FROM AGE(current_date, m.dtembauche)) >= g.ancienneteMin
            AND EXTRACT(YEAR FROM AGE(current_date, m.dtembauche)) < g.ancienneteMax;
 
 
 
+create table client(
+    id serial primary key,
+    nom varchar(100),
+    dtn DATE,
+    Genre varchar(2)
+);
+
+create table vente(
+    id serial primary key,
+    idvoyage int,
+    nbpdtlafo int,
+    idclient int,
+    dateachat date,
+    FOREIGN KEY (idclient) REFERENCES client(id),
+    FOREIGN KEY (idVoyage) REFERENCES Voyage(idvoyage)
+);
+
+
+-- create or replace view v_statistiquevente as
+-- SELECT 
+--     v.idvoyage,
+--     c.genre AS genre_client,
+--     SUM(CASE WHEN c.genre = '0' THEN v.nbpdtlafo ELSE 0 END) AS nb_produits_masculin,
+--     SUM(CASE WHEN c.genre = '1' THEN v.nbpdtlafo ELSE 0 END) AS nb_produits_feminin,
+--     SUM(CASE WHEN c.genre = '0' THEN 1 ELSE 0 END) as genre_masculin,
+--     SUM(CASE WHEN c.genre = '1' THEN 1 ELSE 0 END) as genre_feminin
+-- FROM 
+--     vente v
+-- JOIN 
+--     client c ON v.idclient = c.id
+-- GROUP BY 
+--     v.idvoyage,  genre_client;
+
+
+-- CREATE OR REPLACE VIEW v_statistiquevente AS
+-- SELECT 
+--     v.idvoyage,
+--     c.genre AS genre_client,
+--     SUM(CASE WHEN c.genre = '0' THEN v.nbpdtlafo ELSE 0 END) AS nb_produits_masculin,
+--     SUM(CASE WHEN c.genre = '1' THEN v.nbpdtlafo ELSE 0 END) AS nb_produits_feminin,
+--     COUNT(DISTINCT CASE WHEN c.genre = '0' THEN c.id END) as genre_masculin,
+--     COUNT(DISTINCT CASE WHEN c.genre = '1' THEN c.id END) as genre_feminin
+-- FROM 
+--     vente v
+-- JOIN 
+--     client c ON v.idclient = c.id
+-- GROUP BY 
+--     v.idvoyage, c.genre;
+
+create or replace view v_statistiquevente as
+SELECT 
+    v.idvoyage,
+    SUM(CASE WHEN c.genre = '0' THEN v.nbpdtlafo ELSE 0 END) AS nb_produits_masculin,
+    SUM(CASE WHEN c.genre = '1' THEN v.nbpdtlafo ELSE 0 END) AS nb_produits_feminin,
+COUNT(DISTINCT CASE WHEN c.genre = '0' THEN c.id END) as genre_masculin,
+    COUNT(DISTINCT CASE WHEN c.genre = '1' THEN c.id END) as genre_feminin
+FROM 
+    vente v
+JOIN 
+    client c ON v.idclient = c.id
+GROUP BY 
+    v.idvoyage;
+
+create or replace view v_statistique as
+SELECT 
+    SUM(CASE WHEN c.genre = '0' THEN v.nbpdtlafo ELSE 0 END) AS nb_produits_masculin,
+    SUM(CASE WHEN c.genre = '1' THEN v.nbpdtlafo ELSE 0 END) AS nb_produits_feminin,
+     COUNT(DISTINCT CASE WHEN c.genre = '0' THEN c.id END) as genre_masculin,
+    COUNT(DISTINCT CASE WHEN c.genre = '1' THEN c.id END) as genre_feminin
+FROM 
+    vente v
+JOIN 
+    client c ON v.idclient = c.id;
+
+
+create or replace view v_restefabrique as
+select sum(fabrication.nb)-COALESCE ((SELECT SUM(nbpdtlafo) FROM vente WHERE idvoyage=fabrication.idvoyage),0) as stock_actuel,
+fabrication.idvoyage from fabrication 
+group by fabrication.idvoyage;

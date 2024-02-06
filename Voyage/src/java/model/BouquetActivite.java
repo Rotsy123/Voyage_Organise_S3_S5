@@ -90,16 +90,17 @@ public class BouquetActivite {
             if(results.getDouble(3)>1){
                 double temp=results.getDouble(3);
                 while(temp>1){
-//                    la.add(ins);
+                    la.add(ins);
                     temp--;
                 }
             }
             la.add(ins);
             b = new Bouquet(results.getString(5), results.getString(4));
             nbAct=nbAct+results.getDouble(3);
+            
         }
         ba = new BouquetActivite (b, la);
-        ba.setNbactivite(nbAct);
+        ba.setNbactivite(nbAct); 
         return ba;
     }
 }

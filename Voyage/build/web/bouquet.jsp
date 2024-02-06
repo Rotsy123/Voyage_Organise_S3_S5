@@ -1,4 +1,6 @@
- <!DOCTYPE html>
+ <%@page import="model.Bouquet"%>
+<%@page import="java.util.List"%>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -6,53 +8,7 @@
     <title>Insertion de bouquet</title>
     <style>
  
-#bouquet-form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px #ccc;
-    
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-}
-
-.entry {
-    margin-bottom: 10px;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-}
-
-button {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
+ 
     </style>
 </head>
 <body>
@@ -61,6 +17,7 @@ button:hover {
 <div class="contenus">
 <div id="bouquet-form">
     <form id="bouquetForm">
+        <h1>INSERER UN NOUVEAU BOUQUET</h1>
         <div class="entry">
             <label for="nomBouquet">Nom bouquet©</label>
             <input type="text" id="nomBouquet">
@@ -70,7 +27,23 @@ button:hover {
 
         <button type="button" onclick="ajouterChamp()">Ajouter</button>
         <button type="submit" onclick="validerFormulaire()">Valider</button>
+        <%List<Bouquet> bouquet =(List<Bouquet>) request.getAttribute("bouquet");%>
+        <table>
+            <thead>
+                <tr>
+                    <th>NOM</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%for(int i=0; i<bouquet.size(); i++){%>
+                    <tr>
+                        <td><%=bouquet.get(i).getNom()%></td> 
+                    </tr>
+                <%}%>
+            </tbody>
+        </table>
     </form>
+            
 </div>
 </div>
 <script>
